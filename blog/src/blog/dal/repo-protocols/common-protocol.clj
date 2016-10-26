@@ -1,6 +1,6 @@
-(ns blog.dal.db-protocols)
+(ns blog.dal.repo-protocols)
 
-(defprotocol db-common-protocol
+(defprotocol common-protocol
 	(get-item [this] [this id])
 	(insert [this newItem])
 	(update [this id updatedItem])
