@@ -1,4 +1,4 @@
-(ns blog.view
+(ns blog.views.view
 	(:use hiccup.page
 		  hiccup.element))
 

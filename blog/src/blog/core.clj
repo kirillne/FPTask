@@ -3,8 +3,8 @@
 		  ring.middleware.json
 		  ring.util.response)
 	(:require [compojure.route :as route]
-			  [blog.view :as view]
-						[blog.db :as db]))
+			  [blog.views.view :as view]
+						[blog.dal.db :as db]))
 
 (defroutes app_routes
 	(GET "/" [] (view/index-page))
