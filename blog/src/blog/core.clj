@@ -4,12 +4,16 @@
 		  ring.util.response)
 	(:require [compojure.route :as route]
 			  [blog.views.view :as view]
-						[blog.dal.db :as db]))
+			  [blog.dal.repo.users-repo :as repo]))
+
+
+(def users-repository (repo/->users-repo))
 
 (defroutes app-routes
 	(GET "/" [] (view/index-page))
-	(GET "/api" [] (response {:name "Alex"}))
-	(GET "/api/users" [] (response {:value (db/get-users)}))
+	(GET "/api/users" [] (.get-items users-repository))
+	(GET "/api/user" [] (.get-item users-repository 1))
+	(GET "/api/delete-user" [] (.delete-item users-repository 1))
 	(route/resources "/"))
 
 (def app (wrap-json-response app-routes))
