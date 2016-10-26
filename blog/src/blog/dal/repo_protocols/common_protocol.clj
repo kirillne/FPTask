@@ -4,5 +4,5 @@
 	(get-items [this])
 	(get-item [this id])
 	(insert-item [this newItem])
-	(update-item [this id updatedItem])
+	(update-item [this updatedItem])
 	(delete-item [this id]))

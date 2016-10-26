@@ -2,5 +2,6 @@
 
 (defprotocol users-repo-protocol
 	(get-by-login [this login])
-	(get-seed [this id login])
+	(get-seed-by-id [this id])
+	(get-seed-by-login [this login])
 	(delete-by-login [this login]))
