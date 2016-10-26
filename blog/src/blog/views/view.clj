@@ -1,9 +1,8 @@
 (ns blog.views.view
 	(:use hiccup.page
-		  hiccup.element))
+		  hiccup.element
+     :require [blog.views.layout :as layout]))
 
 (defn index-page [] 
-	(html5
-		[:html
-			[:head]
-			[:body "Alex"]]))
+	(layout/render
+    "home.html" {:docs "document"}))
