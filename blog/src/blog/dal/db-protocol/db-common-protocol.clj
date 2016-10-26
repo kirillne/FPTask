@@ -1,4 +1,4 @@
-(ns blog.dal.db-protocol)
+(ns blog.dal.db-protocols)
 
 (defprotocol db-common-protocol
 	(get-item [this] [this id])
