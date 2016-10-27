@@ -6,8 +6,10 @@
 			  [blog.views.view :as view]
 			  [blog.dal.repo.users-repo :as users-repo]
 			  [blog.dal.repo.profiles-repo :as profiles-repo]
+			  [blog.dal.repo.posts-repo :as posts-repo]
 			  [blog.dal.dto.user :as user]
-			  [blog.dal.dto.profile :as profile]))
+			  [blog.dal.dto.profile :as profile]
+			  [blog.dal.dto.post :as post]))
 
 
 (def users-repository (users-repo/->users-repo))
@@ -16,6 +18,10 @@
 
 (def profiles-repository (profiles-repo/->profiles-repo))
 (defn create-profile [user-id name surname birth-date sex country city address email] (profile/->profile user-id name surname birth-date sex country city address email nil))
+
+(def posts-repository (posts-repo/->posts-repo))
+(defn create-post ([name creation-date user-id text] (post/->post nil name creation-date user-id text nil))
+				  ([id name creation-date user-id text] (post/->post id name creation-date user-id text nil)))
 
 (defroutes app-routes
 	(GET "/" [] (view/index-page))
@@ -39,6 +45,14 @@
 	(GET "/api/profile/email/:email" [email] (.get-by-email profiles-repository email))
 	(GET "/api/profile/country/:country" [country] (.get-by-country profiles-repository country))
 	(GET "/api/profile/city/:city" [city] (.get-by-city profiles-repository city))
+
+	(GET "/api/posts" [] (.get-items posts-repository))
+	(GET "/api/post/:id" [id] (.get-item posts-repository id))
+	(GET "/api/delete-post/:id" [id] (.delete-item posts-repository id))
+	(GET "/api/create-post/:name/:creation-date/:user-id/:text" [name creation-date user-id text] (.insert-item posts-repository (create-post name creation-date user-id text)))
+	(GET "/api/update-post/:id/:name/:creation-date/:user-id/:text" [id name creation-date user-id text] (.update-item posts-repository (create-post id name creation-date user-id text)))
+	(GET "/api/posts/user/:user-id" [user-id] (.get-by-user-id posts-repository user-id))
+	(GET "/api/posts/date/:creation-date" [creation-date] (.get-by-creation-date posts-repository creation-date))
 	(route/resources "/"))
 
 (def app (wrap-json-response app-routes))
