@@ -1,4 +1,4 @@
-(ns blog.dal.repo-protocols.profiles-protocol)
+(ns blog.dal.repos-protocols.profiles-protocol)
 
 (defprotocol profiles-repo-protocol
 	(get-by-surname [this surname])

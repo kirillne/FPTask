@@ -1,4 +1,4 @@
-(ns blog.dal.repo-protocols.common-protocol)
+(ns blog.dal.repos-protocols.common-protocol)
 
 (defprotocol common-repo-protocol
 	(get-items [this])

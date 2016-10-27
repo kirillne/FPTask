@@ -1,4 +1,4 @@
-(ns blog.dal.repo-protocols.users-protocol)
+(ns blog.dal.repos-protocols.users-protocol)
 
 (defprotocol users-repo-protocol
 	(get-by-login [this login])
