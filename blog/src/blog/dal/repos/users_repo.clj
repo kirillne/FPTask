@@ -11,11 +11,11 @@
 
 	(get-items [this] 
 		(jdbc/query db-spec 
-             ["SELECT * FROM Users"]))
+             ["SELECT Id, Login, Password, Seed FROM Users"]))
 
 	(get-item [this id]
 		(jdbc/query db-spec
-             ["SELECT * FROM Users WHERE Id = ?" id]))
+             ["SELECT Id, Login, Password, Seed FROM Users WHERE Id = ?" id]))
 
 	(insert-item [this newItem]
 		(jdbc/insert! db-spec :Users 
@@ -34,16 +34,16 @@
 
 	(get-by-login [this login]
 		(jdbc/query db-spec 
-             ["SELECT * FROM Users WHERE Login = ?" login]))
+             ["SELECT Id, Login, Password, Seed FROM Users WHERE Login = ?" login]))
 
 	(get-seed-by-id [this id]
 		(jdbc/query db-spec 
-             ["SELECT * FROM Users WHERE Id = ?" id] 
+             ["SELECT Seed FROM Users WHERE Id = ?" id] 
              {:row-fn :seed}))
 
 	(get-seed-by-login [this login]
 		(jdbc/query db-spec 
-             ["SELECT * FROM Users WHERE Login = ?" login] 
+             ["SELECT Seed FROM Users WHERE Login = ?" login] 
              {:row-fn :seed}))
 
 	(delete-by-login [this login]

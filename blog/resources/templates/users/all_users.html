@@ -2,6 +2,26 @@
 {% block content %}
 <div class="jumbotron">
 	<h1>All Users</h1>
+	{% ifequal deleted "true" %}
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-danger" >
+	  						 User with Id: <strong>{{param}}</strong> was deleted!
+						</div>
+					</div>
+				</div>
+	{% endifequal %}
+
+	{% ifequal added "true" %}
+				<div class="row">
+					<div class="col-md-12">
+						<div class="alert alert-success" >
+	  						 User with Login: <strong>{{param}}</strong> was created!
+						</div>
+					</div>
+				</div>
+	{% endifequal %}
+
 	<div class="table-responsive">
 		<table class="table table-hover table-condensed">
 			<thead>
@@ -15,7 +35,7 @@
 			<tbody>
 				{% for item in users %}
 					<tr>
-						<td> {{item.id}} </td>
+						<td> <a href="/user/{{item.id}}">{{item.id}}</a> </td>
 						<td> {{item.login}} </td>
 						<td> {{item.password}} </td>
 						<td> {{item.seed}} </td>
@@ -23,6 +43,10 @@
 				{% endfor %}
 			</tbody>
  		</table>
+	</div>
+
+	<div>
+		<a href="/user/add" class="btn btn-primary">Add new user</a>
 	</div>
 </div>
 {% endblock %}
