@@ -8,6 +8,7 @@
 			  [blog.dal.db :as db]
 			  [blog.bll.services.users-service :as users-service]
 			  [blog.bll.services.profiles-service :as profiles-service]
+			  [blog.bll.services.posts-service :as posts-service]
 			  [blog.dal.repos.users-repo :as users-repo]
 			  [blog.dal.repos.profiles-repo :as profiles-repo]
 			  [blog.dal.repos.posts-repo :as posts-repo]
@@ -26,6 +27,8 @@
 (def profiles-service (profiles-service/->profiles-service profiles-repository))
 
 (def posts-repository (posts-repo/->posts-repo db/db-spec))
+(def posts-service (posts-service/->posts-service posts-repository))
+
 (def comments-repository (comments-repo/->comments-repo db/db-spec))
 	
 
@@ -108,7 +111,35 @@
 	(POST "/profile/delete" request (do (.delete-item profiles-service (get-in request [:params :userid])) 
 								     (response/redirect (str "/profiles/" (get-in request [:params :userid]) "/true/false"))))
 
-	(GET "/api/posts" [] (.get-items posts-repository))
+	(GET "/posts" [] (view/all-posts-page (.get-items posts-service) false false nil))
+
+	(GET "/posts/:id/:deleted/:added" [id deleted added] (view/all-posts-page (.get-items posts-service) deleted added id))
+
+	(GET "/post/:id" [id] (view/post-page (.get-item posts-service id) false))
+
+	(GET "/post/:id/:updated" [id updated] (view/post-page (.get-item posts-service id) updated))
+
+	(GET "/post/add" [] (view/add-post-page))
+
+	(POST "/post/add" request (do (.insert-item posts-service (create-post 
+												(get-in request [:params :name]) 
+												(get-in request [:params :creation-date])
+												(get-in request [:params :user-id])
+												(get-in request [:params :text]))) 
+								     (response/redirect (str "/posts/" (get-in request [:params :name]) "/false/true"))))
+
+	(POST "/post/update" request (do (.update-item posts-service (create-post 
+												(get-in request [:params :id]) 
+												(get-in request [:params :name]) 
+												(get-in request [:params :creation-date])
+												(get-in request [:params :user-id])
+												(get-in request [:params :text]))) 
+									 		(response/redirect (str "/post/" (get-in request [:params :id]) "/true"))))
+	
+	(POST "/post/delete" request (do (.delete-item posts-service (get-in request [:params :id])) 
+								     (response/redirect (str "/posts/" (get-in request [:params :id]) "/true/false"))))
+
+	(GET "/api/posts" [] (.get-items posts-service))
 	(GET "/api/post/:id" [id] (.get-item posts-repository id))
 	(GET "/api/delete-post/:id" [id] (.delete-item posts-repository id))
 	(GET "/api/create-post/:name/:creation-date/:user-id/:text" [name creation-date user-id text] (.insert-item posts-repository (create-post name creation-date user-id text)))

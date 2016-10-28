@@ -12,24 +12,24 @@
 	(get-items [this] 
 		(jdbc/query db-spec 
              ["SELECT Id, Name, CreationDate, UserId, Text, Rating FROM Posts"]
-             (posts-dto/->post 
-             	:id
-             	:name 
-             	:creation-date 
-             	:user-id 
-             	:text 
-             	:rating)))
+             {:row-fn #(posts-dto/->post 
+             	(:id %1)
+             	(:name %1) 
+             	(:creationdate %1)
+             	(:userid %1)
+             	(:text %1)
+             	(:rating %1))}))
 
 	(get-item [this id]
 		(jdbc/query db-spec
              ["SELECT Id, Name, CreationDate, UserId, Text, Rating FROM Posts WHERE Id = ?" id]
-             (posts-dto/->post 
-                  :id
-                  :name 
-                  :creation-date 
-                  :user-id 
-                  :text 
-                  :rating)))
+             {:row-fn #(posts-dto/->post 
+                  (:id %1)
+                  (:name %1) 
+                  (:creationdate %1)
+                  (:userid %1)
+                  (:text %1)
+                  (:rating %1))}))
 
 	(insert-item [this newItem]
 		(jdbc/insert! db-spec :Posts 
@@ -49,7 +49,7 @@
 			["Id = ?" (:id updatedItem)]))
 
 	(delete-item [this id]
-		(jdbc/delete! db-spec :Profiles ["Id = ?" id]))
+		(jdbc/delete! db-spec :Posts ["Id = ?" id]))
 
 	;;post-repo-protocol implementation
 	posts-protocol/posts-repo-protocol
@@ -57,22 +57,22 @@
 	(get-by-user-id [this user-id]
 		(jdbc/query db-spec
              ["SELECT Id, Name, CreationDate, UserId, Text, Rating FROM Posts WHERE UserId = ?" user-id]
-             (posts-dto/->post 
-                  :id
-                  :name 
-                  :creation-date 
-                  :user-id 
-                  :text 
-                  :rating)))
+             {:row-fn #(posts-dto/->post 
+                  (:id %1)
+                  (:name %1) 
+                  (:creationdate %1)
+                  (:userid %1)
+                  (:text %1)
+                  (:rating %1))}))
 
       (get-by-creation-date [this creation-date]
             (jdbc/query db-spec
              ["SELECT Id, Name, CreationDate, UserId, Text, Rating FROM Posts WHERE CreationDate = ?" creation-date]
-             (posts-dto/->post 
-                  :id
-                  :name 
-                  :creation-date 
-                  :user-id 
-                  :text 
-                  :rating)))
+             {:row-fn #(posts-dto/->post 
+                  (:id %1)
+                  (:name %1) 
+                  (:creationdate %1)
+                  (:userid %1)
+                  (:text %1)
+                  (:rating %1))}))
 )

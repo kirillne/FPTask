@@ -2,13 +2,12 @@
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :url "http://www.eclipse.org/legal/epl-v10.html"}
   :plugins [[lein-ring "0.9.7"]
-            [lein-localrepo "0.5.3"]]
+           [lein-localrepo "0.5.3"]]
   :ring {:handler blog.core/app
-  		   :auto-reload? true
-  		   :auto-refresh? false}
-  :native-path "C:/Program Files/Java/jre1.8.0_111/bin"
+         :auto-reload? true
+         :auto-refresh? false}
   :dependencies [[org.clojure/clojure "1.8.0"]
   				       [ring/ring "1.5.0"]
   				       [ring/ring-json "0.4.0"]
