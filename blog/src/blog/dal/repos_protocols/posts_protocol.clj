@@ -1,4 +1,4 @@
-(ns blog.dal.repo-protocols.posts-protocol)
+(ns blog.dal.repos-protocols.posts-protocol)
 
 (defprotocol posts-repo-protocol
 	(get-by-user-id [this user-id])
