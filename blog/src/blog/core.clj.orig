@@ -116,6 +116,7 @@
 	(GET "/api/posts/user/:user-id" [user-id] (.get-by-user-id posts-repository user-id))
 	(GET "/api/posts/date/:creation-date" [creation-date] (.get-by-creation-date posts-repository creation-date))
 
+<<<<<<< Updated upstream
 	(GET "/api/comments" [] (.get-items comments-repository))
 	(GET "/api/comment/:id" [id] (.get-item comments-repository id))
 	(GET "/api/create-comment/:user-id/:text/:creation-date/:post-id" [user-id text creation-date post-id] (.insert-item comments-repository (create-comment user-id text creation-date post-id)))
@@ -125,6 +126,10 @@
 	(GET "/api/comments/:post-id" [post-id] (.get-by-post-id comments-repository post-id))
 	(GET "/api/delete-comments/:post-id" [post-id] (.delete-by-post-id comments-repository post-id))
 	
+=======
+	(GET "/aaa" [] (.insert-item profiles-service (create-profile 1 1 1 "12/22/1994" 1 1 1 1 1) ))
+
+>>>>>>> Stashed changes
 	(route/resources "/"))
 
 (def app  

@@ -11,7 +11,7 @@
 
 	(get-items [this] 
 		(jdbc/query db-spec 
-             ["SELECT * FROM Profiles"]
+             ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles"]
              (profile-dto/->profile 
              	:userid
              	:name 
@@ -26,7 +26,7 @@
 
 	(get-item [this id]
 		(jdbc/query db-spec
-             ["SELECT * FROM Profiles WHERE UserId = ?" id]
+             ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles WHERE UserId = ?" id]
              (profile-dto/->profile 
              	:userid 
              	:name 
@@ -74,7 +74,7 @@
 
 	(get-by-surname [this surname]
 		(jdbc/query db-spec
-             ["SELECT * FROM Profiles WHERE Surname = ?" surname]
+             ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles WHERE Surname = ?" surname]
              (profile-dto/->profile 
              	:userid 
              	:name 
@@ -89,7 +89,7 @@
 
 	(get-by-email [this email]
 		(jdbc/query db-spec
-             ["SELECT * FROM Profiles WHERE Email = ?" email]
+             ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles WHERE Email = ?" email]
              (profile-dto/->profile 
              	:userid 
              	:name 
@@ -104,7 +104,7 @@
 
 	(get-by-country [this country]
 		(jdbc/query db-spec
-             ["SELECT * FROM Profiles WHERE Country = ?" country]
+             ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles WHERE Country = ?" country]
              (profile-dto/->profile 
              	:userid 
              	:name 
@@ -119,7 +119,7 @@
 
 	(get-by-city [this city]
 		(jdbc/query db-spec
-             ["SELECT * FROM Profiles WHERE City = ?" city]
+             ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles WHERE City = ?" city]
              (profile-dto/->profile 
              	:userid 
              	:name 

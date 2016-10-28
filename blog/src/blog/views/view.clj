@@ -18,3 +18,15 @@
 (defn add-user-page []
 	(layout/render
 		"users/add_user.html"))
+
+(defn all-profiles-page [profiles deleted added param]
+	(layout/render
+		"profiles/all_profiles.html" {:profiles profiles :deleted deleted :added added :param param}))
+
+(defn profile-page [profile updated]
+	(layout/render
+		"profiles/profile.html" {:profile profile :updated updated}))
+
+(defn add-profile-page []
+	(layout/render
+		"profiles/add_profile.html"))
