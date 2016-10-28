@@ -1,19 +1,18 @@
-(ns blog.dal.repo.commetns-repo
-	(:require [blog.dal.repo-protocols.common-protocol :as common-protocol]
-			  [blog.dal.repo-protocols.commetns-protocol :as commetns-protocol]
-			  [blog.dal.dto.comment :as commetns-dto]
-			  [blog.dal.db :as db]
+(ns blog.dal.repos.comments-repo
+	(:require [blog.dal.repos-protocols.common-protocol :as common-protocol]
+			  [blog.dal.repos-protocols.comments-protocol :as comments-protocol]
+			  [blog.dal.dto.comment-record :as comments-dto]
 			  [clojure.java.jdbc :as jdbc]))
 
-(deftype comments-repo []
+(deftype comments-repo [db-spec]
 
 	;;common-repo-protocol implementaiton
 	common-protocol/common-repo-protocol
 	
 	(get-items [this]
-		(jdbc/query db/db-spec
+		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments"]
-			(commetns-dto/->comment
+			(comments-dto/->comment-record
 				:id
 				:user-id
 				:text
@@ -25,9 +24,9 @@
 	)
 	
 	(get-item [this id]
-		(jdbc/query db/db-spec
+		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE Id = ?" id]
-			(commetns-dto/->comment
+			(comments-dto/->comment-record
 				:id
 				:user-id
 				:text
@@ -38,7 +37,7 @@
 	)
 	
 	(insert-item [this newItem]
-		(jdbc/insert! db/db-spec :Comments
+		(jdbc/insert! db-spec :Comments
 		{
 			:userid (:user-id newItem)
 			:text (:text newItem)
@@ -49,7 +48,7 @@
 	)
 
 	(update-item [this updatedItem]
-		(jdbc/update! db/db-spec :Comments
+		(jdbc/update! db-spec :Comments
 		{
 			:userid (:user-id updatedItem)
 			:text (:text updatedItem)
@@ -61,7 +60,7 @@
 	)
 	
 	(delete-item [this id]
-		(jdbc/delete! db/db-spec :Comments
+		(jdbc/delete! db-spec :Comments
 		["Id = ?" id])
 	)
 	
@@ -71,9 +70,9 @@
 	
 	
 	(get-by-user-id [this user-id]
-		(jdbc/query db/db-spec
+		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE UserId = ?" user-id]
-			(commetns-dto/->comment
+			(comments-dto/->comment-record
 				:id
 				:user-id
 				:text
@@ -85,9 +84,9 @@
 	)
 	
 	(get-by-post-id [this post-id]
-		(jdbc/query db/db-spec
+		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE PostId = ?" post-id]
-			(commetns-dto/->comment
+			(comments-dto/->comment-record
 				:id
 				:user-id
 				:text
@@ -99,7 +98,7 @@
 	)
 	
 	(delete-by-post-id [this post-id]
-		(jdbc/delete! db/db-spec :Comments
+		(jdbc/delete! db-spec :Comments
 		["PostId = ?" post-id])
 	)
 	
