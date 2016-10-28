@@ -10,22 +10,32 @@
 			  [blog.dal.repos.users-repo :as users-repo]
 			  [blog.dal.repos.profiles-repo :as profiles-repo]
 			  [blog.dal.repos.posts-repo :as posts-repo]
+			  [blog.dal.repo.comments-repo :as comments-repo]
+			  
 			  [blog.dal.dto.user :as user]
 			  [blog.dal.dto.profile :as profile]
-			  [blog.dal.dto.post :as post]))
+			  [blog.dal.dto.post :as post]
+			  [blog.dal.dto.comment :as comment]))
 
 
 (def users-repository (users-repo/->users-repo db/db-spec))
 (def users-service (users-service/->users-service users-repository))
 
 (def posts-repository (posts-repo/->posts-repo db/db-spec))
+(def comments-repository (comments-repo/->comments-repo))
+	
+
 
 (defn create-user ([login password seed] (user/->user nil login password seed))
 				  ([id login password seed] (user/->user id login password seed)))
 
 (defn create-post ([name creation-date user-id text] (post/->post nil name creation-date user-id text nil))
 				  ([id name creation-date user-id text] (post/->post id name creation-date user-id text nil)))
+				  
+(defn create-comment ([user-id text creation-date post-id] (comment/->comment nil user-id text creation-date nil post-id))
+					([id user-id text creation-date post-id] (comment/->comment id user-id text creation-date nil post-id))	
 
+				  
 (defroutes app-routes
 	(GET "/" [] (view/index-page))
 
@@ -64,6 +74,15 @@
 	(GET "/api/posts/user/:user-id" [user-id] (.get-by-user-id posts-repository user-id))
 	(GET "/api/posts/date/:creation-date" [creation-date] (.get-by-creation-date posts-repository creation-date))
 
+	(GET "/api/comments" [] (.get-items comments-repository))
+	(GET "/api/comment/:id" [id] (.get-item comments-repository id))
+	(GET "/api/create-comment/:user-id/:text/:creation-date/:post-id" [user-id text creation-date post-id] (.insert-item comments-repository (create-comment user-id text creation-date post-id)))
+	(GET "/api/update-comment/:id/:user-id/:text/:creation-date/:post-id"  [id user-id text creation-date post-id] (.update-item comments-repository (create-comment id user-id text creation-date post-id)))
+	(GET "/api/delete-comment/:id" [id] (.delete-item comments-repository id)))
+	(GET "/api/comments/:user-id" [user-id] (.get-by-user-id comments-repository user-id))
+	(GET "/api/comments/:post-id" [post-id] (.get-by-post-id comments-repository post-id))
+	(GET "/api/delete-comments/:post-id" [post-id] (.delete-by-post-id comments-repository post-id))
+	
 	(route/resources "/"))
 
 (def app  
