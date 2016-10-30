@@ -9,6 +9,7 @@
 			  [blog.bll.services.users-service :as users-service]
 			  [blog.bll.services.profiles-service :as profiles-service]
 			  [blog.bll.services.posts-service :as posts-service]
+			  [blog.bll.services.comments-service :as comments-service]
 			  [blog.dal.repos.users-repo :as users-repo]
 			  [blog.dal.repos.profiles-repo :as profiles-repo]
 			  [blog.dal.repos.posts-repo :as posts-repo]
@@ -17,7 +18,7 @@
 			  [blog.dal.dto.user :as user]
 			  [blog.dal.dto.profile :as profile]
 			  [blog.dal.dto.post :as post]
-			  [blog.dal.dto.comment-record :as comment-record]))
+			  [blog.dal.dto.comment-rec :as comment-rec]))
 
 
 (def users-repository (users-repo/->users-repo db/db-spec))
@@ -30,7 +31,7 @@
 (def posts-service (posts-service/->posts-service posts-repository))
 
 (def comments-repository (comments-repo/->comments-repo db/db-spec))
-	
+(def comments-service (comments-service/->comments-service comments-repository))	
 
 
 (defn create-user ([login password seed] (user/->user nil login password seed))
@@ -40,9 +41,9 @@
 
 (defn create-post ([name creation-date user-id text] (post/->post nil name creation-date user-id text nil))
 				  ([id name creation-date user-id text] (post/->post id name creation-date user-id text nil)))
-				  
-(defn create-comment ([user-id text creation-date post-id] (comment-record/->comment-record nil user-id text creation-date nil post-id))
-					([id user-id text creation-date post-id] (comment-record/->comment-record id user-id text creation-date nil post-id)))
+						
+(defn create-comment ([user-id text creation-date post-id] (comment-rec/->comment-rec nil user-id text creation-date nil post-id))
+					([id user-id text creation-date post-id] (comment-rec/->comment-rec id user-id text creation-date nil post-id)))
 
 				  
 (defroutes app-routes
@@ -155,6 +156,24 @@
 	(GET "/api/comments/:user-id" [user-id] (.get-by-user-id comments-repository user-id))
 	(GET "/api/comments/:post-id" [post-id] (.get-by-post-id comments-repository post-id))
 	(GET "/api/delete-comments/:post-id" [post-id] (.delete-by-post-id comments-repository post-id))
+	
+	(POST "/comment/add" request (do (.insert-item comments-service (create-comment 
+												(get-in request [:params :userid]) 
+												(get-in request [:params :text]) 
+												(get-in request [:params :creationdate])
+												(get-in request [:params :postid]))) 
+								  (response/redirect (str "/comments/" (get-in request [:params :postid]) "/false/true"))))
+
+	(POST "/comment/update" request (do (.update-item comments-service (create-comment 
+												(get-in request [:params :id])
+												(get-in request [:params :userid]) 
+												(get-in request [:params :text]) 
+												(get-in request [:params :creationdate])
+												(get-in request [:params :postid]))) 
+									 (response/redirect (str "/comment/" (get-in request [:params :id]) "/true"))))
+	
+	(POST "/comment/delete" request (do (.delete-item comments-service (get-in request [:params :id])) 
+								     (response/redirect (str "/comments/" (get-in request [:params :id]) "/true/false"))))
 	
 	(route/resources "/"))
 

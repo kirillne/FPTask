@@ -1,7 +1,7 @@
 (ns blog.dal.repos.comments-repo
 	(:require [blog.dal.repos-protocols.common-protocol :as common-protocol]
 			  [blog.dal.repos-protocols.comments-protocol :as comments-protocol]
-			  [blog.dal.dto.comment-record :as comments-dto]
+			  [blog.dal.dto.comment-rec :as comments-dto]
 			  [clojure.java.jdbc :as jdbc]))
 
 (deftype comments-repo [db-spec]
@@ -12,29 +12,27 @@
 	(get-items [this]
 		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments"]
-			(comments-dto/->comment-record
+			(comments-dto/->comment-rec
 				:id
-				:user-id
-				:text
-				:creation-date
+				:userid
+				:text 
+				:creationdate
 				:rating
-				:post-id
-				)
-		)
-	)
+				:postid)))
+	
+	
 	
 	(get-item [this id]
 		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE Id = ?" id]
-			(comments-dto/->comment-record
+			(comments-dto/->comment-rec
 				:id
-				:user-id
-				:text
-				:creation-date
+				:userid
+				:text 
+				:creationdate
 				:rating
-				:post-id)
-		)
-	)
+				:postid)))
+	
 	
 	(insert-item [this newItem]
 		(jdbc/insert! db-spec :Comments
@@ -72,30 +70,26 @@
 	(get-by-user-id [this user-id]
 		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE UserId = ?" user-id]
-			(comments-dto/->comment-record
+			(comments-dto/->comment-rec
 				:id
-				:user-id
-				:text
-				:creation-date
+				:userid
+				:text 
+				:creationdate
 				:rating
-				:post-id
-			)
-		)
-	)
+				:postid)))
+	
 	
 	(get-by-post-id [this post-id]
 		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE PostId = ?" post-id]
-			(comments-dto/->comment-record
+			(comments-dto/->comment-rec
 				:id
-				:user-id
-				:text
-				:creation-date
+				:userid
+				:text 
+				:creationdate
 				:rating
-				:post-id
-			)
-		)
-	)
+				:postid)))
+	
 	
 	(delete-by-post-id [this post-id]
 		(jdbc/delete! db-spec :Comments
