@@ -45,7 +45,7 @@
 
 (defn all-comments-page [comments deleted added param]
 	(layout/render
-		"comments/all_posts.html" {:comments comments :deleted deleted :added added :param param}))
+		"comments/all_comments.html" {:comments comments :deleted deleted :added added :param param}))
 
 (defn comment-page [comment updated]
 	(layout/render
