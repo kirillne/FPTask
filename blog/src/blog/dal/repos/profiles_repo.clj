@@ -12,32 +12,32 @@
 	(get-items [this] 
 		(jdbc/query db-spec 
              ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles"]
-             (profile-dto/->profile 
-             	:userid
-             	:name 
-             	:surname 
-             	:birthdate 
-             	:sex 
-             	:country 
-             	:city 
-             	:address 
-             	:email 
-             	:rating)))
+             {:row-fn #(profile-dto/->profile 
+             	(:userid %1)
+             	(:name %1) 
+             	(:surname %1) 
+             	(:birthdate %1) 
+             	(:sex %1) 
+             	(:country %1) 
+             	(:city %1) 
+             	(:address %1) 
+             	(:email %1) 
+             	(:rating %1))}))
 
 	(get-item [this id]
 		(jdbc/query db-spec
              ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles WHERE UserId = ?" id]
-             (profile-dto/->profile 
-             	:userid 
-             	:name 
-             	:surname 
-             	:birthdate 
-             	:sex 
-             	:country 
-             	:city 
-             	:address 
-             	:email 
-             	:rating)))
+             {:row-fn #(profile-dto/->profile 
+                  (:userid %1)
+                  (:name %1) 
+                  (:surname %1) 
+                  (:birthdate %1) 
+                  (:sex %1) 
+                  (:country %1) 
+                  (:city %1) 
+                  (:address %1) 
+                  (:email %1) 
+                  (:rating %1))}))
 
 	(insert-item [this newItem]
 		(jdbc/insert! db-spec :Profiles 
@@ -75,59 +75,59 @@
 	(get-by-surname [this surname]
 		(jdbc/query db-spec
              ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles WHERE Surname = ?" surname]
-             (profile-dto/->profile 
-             	:userid 
-             	:name 
-             	:surname 
-             	:birthdate 
-             	:sex 
-             	:country 
-             	:city 
-             	:address 
-             	:email 
-             	:rating)))
+             {:row-fn #(profile-dto/->profile 
+                  (:userid %1)
+                  (:name %1) 
+                  (:surname %1) 
+                  (:birthdate %1) 
+                  (:sex %1) 
+                  (:country %1) 
+                  (:city %1) 
+                  (:address %1) 
+                  (:email %1) 
+                  (:rating %1))}))
 
 	(get-by-email [this email]
 		(jdbc/query db-spec
              ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles WHERE Email = ?" email]
-             (profile-dto/->profile 
-             	:userid 
-             	:name 
-             	:surname 
-             	:birthdate 
-             	:sex 
-             	:country 
-             	:city 
-             	:address 
-             	:email 
-             	:rating)))
+             {:row-fn #(profile-dto/->profile 
+                  (:userid %1)
+                  (:name %1) 
+                  (:surname %1) 
+                  (:birthdate %1) 
+                  (:sex %1) 
+                  (:country %1) 
+                  (:city %1) 
+                  (:address %1) 
+                  (:email %1) 
+                  (:rating %1))}))
 
 	(get-by-country [this country]
 		(jdbc/query db-spec
              ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles WHERE Country = ?" country]
-             (profile-dto/->profile 
-             	:userid 
-             	:name 
-             	:surname 
-             	:birthdate 
-             	:sex 
-             	:country 
-             	:city 
-             	:address 
-             	:email 
-             	:rating)))
+             {:row-fn #(profile-dto/->profile 
+                  (:userid %1)
+                  (:name %1) 
+                  (:surname %1) 
+                  (:birthdate %1) 
+                  (:sex %1) 
+                  (:country %1) 
+                  (:city %1) 
+                  (:address %1) 
+                  (:email %1) 
+                  (:rating %1))}))
 
 	(get-by-city [this city]
 		(jdbc/query db-spec
              ["SELECT UserId , Name, Surname, BirthDate, Sex, Country, City, Address, Email, Rating FROM Profiles WHERE City = ?" city]
-             (profile-dto/->profile 
-             	:userid 
-             	:name 
-             	:surname 
-             	:birthdate 
-             	:sex 
-             	:country 
-             	:city 
-             	:address 
-             	:email 
-             	:rating))))
+             {:row-fn #(profile-dto/->profile 
+                  (:userid %1)
+                  (:name %1) 
+                  (:surname %1) 
+                  (:birthdate %1) 
+                  (:sex %1) 
+                  (:country %1) 
+                  (:city %1) 
+                  (:address %1) 
+                  (:email %1) 
+                  (:rating %1))})))

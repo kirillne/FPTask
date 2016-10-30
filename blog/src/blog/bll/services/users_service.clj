@@ -10,7 +10,7 @@
 		(.get-items users-repo))
 
 	(get-item [this id]
-		(first (.get-item users-repo id)))
+		(prn (first (.get-item users-repo id))))
 
 	(insert-item [this newItem]
 		(.insert-item users-repo newItem))
