@@ -148,14 +148,12 @@
 	(GET "/api/posts/user/:user-id" [user-id] (.get-by-user-id posts-repository user-id))
 	(GET "/api/posts/date/:creation-date" [creation-date] (.get-by-creation-date posts-repository creation-date))
 
-	(GET "/api/comments" [] (.get-items comments-repository))
-	(GET "/api/comment/:id" [id] (.get-item comments-repository id))
-	(GET "/api/create-comment/:user-id/:text/:creation-date/:post-id" [user-id text creation-date post-id] (.insert-item comments-repository (create-comment user-id text creation-date post-id)))
-	(GET "/api/update-comment/:id/:user-id/:text/:creation-date/:post-id"  [id user-id text creation-date post-id] (.update-item comments-repository (create-comment id user-id text creation-date post-id)))
-	(GET "/api/delete-comment/:id" [id] (.delete-item comments-repository id))
-	(GET "/api/comments/:user-id" [user-id] (.get-by-user-id comments-repository user-id))
-	(GET "/api/comments/:post-id" [post-id] (.get-by-post-id comments-repository post-id))
-	(GET "/api/delete-comments/:post-id" [post-id] (.delete-by-post-id comments-repository post-id))
+	
+	(GET "/comments" [] (view/all-comments-page (.get-items comments-service) false false nil))
+	(GET "/comments/:id/:deleted/:added" [id deleted added] (view/all-comments-page (.get-items comments-service) deleted added id))
+	(GET "/comments/add" [] (view/add-comment-page))
+	(GET "/comments/:id" [id] (view/comment-page (.get-item comments-service id) false))
+	(GET "/comments/:id/:updated" [id updated] (view/comment-page (.get-item comments-service id) updated))
 	
 	(POST "/comment/add" request (do (.insert-item comments-service (create-comment 
 												(get-in request [:params :userid]) 
@@ -163,7 +161,6 @@
 												(get-in request [:params :creationdate])
 												(get-in request [:params :postid]))) 
 								  (response/redirect (str "/comments/" (get-in request [:params :postid]) "/false/true"))))
-
 	(POST "/comment/update" request (do (.update-item comments-service (create-comment 
 												(get-in request [:params :id])
 												(get-in request [:params :userid]) 
@@ -171,7 +168,6 @@
 												(get-in request [:params :creationdate])
 												(get-in request [:params :postid]))) 
 									 (response/redirect (str "/comment/" (get-in request [:params :id]) "/true"))))
-	
 	(POST "/comment/delete" request (do (.delete-item comments-service (get-in request [:params :id])) 
 								     (response/redirect (str "/comments/" (get-in request [:params :id]) "/true/false"))))
 	

@@ -42,3 +42,15 @@
 (defn add-post-page []
 	(layout/render
 		"posts/add_post.html"))
+
+(defn all-comments-page [comments deleted added param]
+	(layout/render
+		"comments/all_posts.html" {:comments comments :deleted deleted :added added :param param}))
+
+(defn comment-page [comment updated]
+	(layout/render
+		"comments/comment.html" {:comment comment :updated updated}))
+
+(defn add-comment-page []
+	(layout/render
+		"comments/add_comment.html"))
