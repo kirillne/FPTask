@@ -151,9 +151,9 @@
 	
 	(GET "/comments" [] (view/all-comments-page (.get-items comments-service) false false nil))
 	(GET "/comments/:id/:deleted/:added" [id deleted added] (view/all-comments-page (.get-items comments-service) deleted added id))
-	(GET "/comments/add" [] (view/add-comment-page))
-	(GET "/comments/:id" [id] (view/comment-page (.get-item comments-service id) false))
-	(GET "/comments/:id/:updated" [id updated] (view/comment-page (.get-item comments-service id) updated))
+	(GET "/comment/add" [] (view/add-comment-page))
+	(GET "/comment/:id" [id] (view/comment-page (.get-item comments-service id) false))
+	(GET "/comment/:id/:updated" [id updated] (view/comment-page (.get-item comments-service id) updated))
 	
 	(POST "/comment/add" request (do (.insert-item comments-service (create-comment 
 												(get-in request [:params :userid]) 
