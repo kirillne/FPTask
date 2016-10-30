@@ -116,11 +116,11 @@
 
 	(GET "/posts/:id/:deleted/:added" [id deleted added] (view/all-posts-page (.get-items posts-service) deleted added id))
 
+	(GET "/post/add" [] (view/add-post-page))
+
 	(GET "/post/:id" [id] (view/post-page (.get-item posts-service id) false))
 
 	(GET "/post/:id/:updated" [id updated] (view/post-page (.get-item posts-service id) updated))
-
-	(GET "/post/add" [] (view/add-post-page))
 
 	(POST "/post/add" request (do (.insert-item posts-service (create-post 
 												(get-in request [:params :name]) 

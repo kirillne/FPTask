@@ -11,11 +11,21 @@
 
 	(get-items [this] 
 		(jdbc/query db-spec 
-             ["SELECT Id, Login, Password, Seed FROM Users"]))
+             ["SELECT Id, Login, Password, Seed FROM Users"]
+             {:row-fn #(user-dto/->user
+			 	(:id %1)
+			 	(:login %1)
+			 	(:password %1)
+			 	(:seed %1))}))
 
 	(get-item [this id]
 		(jdbc/query db-spec
-             ["SELECT Id, Login, Password, Seed FROM Users WHERE Id = ?" id]))
+             ["SELECT Id, Login, Password, Seed FROM Users WHERE Id = ?" id]
+             {:row-fn #(user-dto/->user
+			 	(:id %1)
+			 	(:login %1)
+			 	(:password %1)
+			 	(:seed %1))}))
 
 	(insert-item [this newItem]
 		(jdbc/insert! db-spec :Users 
@@ -34,7 +44,12 @@
 
 	(get-by-login [this login]
 		(jdbc/query db-spec 
-             ["SELECT Id, Login, Password, Seed FROM Users WHERE Login = ?" login]))
+             ["SELECT Id, Login, Password, Seed FROM Users WHERE Login = ?" login]
+             {:row-fn #(user-dto/->user
+			 	(:id %1)
+			 	(:login %1)
+			 	(:password %1)
+			 	(:seed %1))}))
 
 	(get-seed-by-id [this id]
 		(jdbc/query db-spec 
