@@ -6,33 +6,32 @@
 
 (deftype comments-repo [db-spec]
 
+
 	;;common-repo-protocol implementaiton
 	common-protocol/common-repo-protocol
 	
 	(get-items [this]
 		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments"]
-			(comments-dto/->comment-rec
-				:id
-				:userid
-				:text 
-				:creationdate
-				:rating
-				:postid)))
-	
+			{:row-fn #(comments-dto/->comment-rec
+				(:id %1)
+				(:user-id %1)
+				(:text %1)
+				(:creation-date %1)
+				(:rating %1)
+				(:post-id %1))}))
 	
 	
 	(get-item [this id]
 		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE Id = ?" id]
-			(comments-dto/->comment-rec
-				:id
-				:userid
-				:text 
-				:creationdate
-				:rating
-				:postid)))
-	
+			{:row-fn #(comments-dto/->comment-rec
+				(:id %1)
+				(:user-id %1)
+				(:text %1)
+				(:creation-date %1)
+				(:rating %1)
+				(:post-id %1))}))
 	
 	(insert-item [this newItem]
 		(jdbc/insert! db-spec :Comments
@@ -70,26 +69,25 @@
 	(get-by-user-id [this user-id]
 		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE UserId = ?" user-id]
-			(comments-dto/->comment-rec
-				:id
-				:userid
-				:text 
-				:creationdate
-				:rating
-				:postid)))
+			{:row-fn #(comments-dto/->comment-rec
+				(:id %1)
+				(:user-id %1)
+				(:text %1)
+				(:creation-date %1)
+				(:rating %1)
+				(:post-id %1))}))
 	
 	
 	(get-by-post-id [this post-id]
 		(jdbc/query db-spec
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE PostId = ?" post-id]
-			(comments-dto/->comment-rec
-				:id
-				:userid
-				:text 
-				:creationdate
-				:rating
-				:postid)))
-	
+			{:row-fn #(comments-dto/->comment-rec
+				(:id %1)
+				(:user-id %1)
+				(:text %1)
+				(:creation-date %1)
+				(:rating %1)
+				(:post-id %1))}))
 	
 	(delete-by-post-id [this post-id]
 		(jdbc/delete! db-spec :Comments
@@ -97,3 +95,4 @@
 	)
 	
 )			  
+
