@@ -38,11 +38,11 @@
 				{% for item in comments %}
 					<tr>
 						<td> <a href="/comment/{{item.id}}">{{item.id}}</a> </td>
-						<td> {{item.userid}} </td>
+						<td> {{item.user-id}} </td>
 						<td> {{item.text}} </td>
-						<td> {{item.creationdate}} </td>
+						<td> {{item.creation-date}} </td>
 						<td> {{item.rating}} </td>
-						<td> {{item.postid}} </td>
+						<td> {{item.post-id}} </td>
 					</tr>
 				{% endfor %}
 			</tbody>

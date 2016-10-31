@@ -15,11 +15,11 @@
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments"]
 			{:row-fn #(comments-dto/->comment-rec
 				(:id %1)
-				(:user-id %1)
+				(:userid %1)
 				(:text %1)
-				(:creation-date %1)
+				(:creationdate %1)
 				(:rating %1)
-				(:post-id %1))}))
+				(:postid %1))}))
 	
 	
 	(get-item [this id]
@@ -27,11 +27,11 @@
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE Id = ?" id]
 			{:row-fn #(comments-dto/->comment-rec
 				(:id %1)
-				(:user-id %1)
+				(:userid %1)
 				(:text %1)
-				(:creation-date %1)
+				(:creationdate %1)
 				(:rating %1)
-				(:post-id %1))}))
+				(:postid %1))}))
 	
 	(insert-item [this newItem]
 		(jdbc/insert! db-spec :Comments
@@ -71,11 +71,11 @@
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE UserId = ?" user-id]
 			{:row-fn #(comments-dto/->comment-rec
 				(:id %1)
-				(:user-id %1)
+				(:userid %1)
 				(:text %1)
-				(:creation-date %1)
+				(:creationdate %1)
 				(:rating %1)
-				(:post-id %1))}))
+				(:postid %1))}))
 	
 	
 	(get-by-post-id [this post-id]
@@ -83,11 +83,11 @@
 			["SELECT Id , UserId, Text, CreationDate, Rating, PostId FROM Comments WHERE PostId = ?" post-id]
 			{:row-fn #(comments-dto/->comment-rec
 				(:id %1)
-				(:user-id %1)
+				(:userid %1)
 				(:text %1)
-				(:creation-date %1)
+				(:creationdate %1)
 				(:rating %1)
-				(:post-id %1))}))
+				(:postid %1))}))
 	
 	(delete-by-post-id [this post-id]
 		(jdbc/delete! db-spec :Comments
