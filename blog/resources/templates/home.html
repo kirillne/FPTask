@@ -1,29 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="jumbotron">
-    <h1>Welcome to fp_task</h1>
-    <p>Time to start building your site!</p>
-    <p><a class="btn btn-primary btn-lg" href="http://luminusweb.net">Learn more &raquo;</a></p>
+<div class="row">
+  <div class="col-sm-12">
+    {{docs|markdown}}
   </div>
-
-  <div class="row">
-    <div class="col-md-4">
-      <a class="btn btn-primary" href="/users">All Users</a>
-    <div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      <a class="btn btn-primary" href="/profiles">All Profiles</a>
-    <div>
-  </div>
-   <div class="row">
-    <div class="col-md-4">
-      <a class="btn btn-primary" href="/posts">All Posts</a>
-    <div>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-      <a class="btn btn-primary" href="/comments">All Comments</a>
-    <div>
-  </div>
+</div>
 {% endblock %}
