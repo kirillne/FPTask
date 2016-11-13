@@ -2,7 +2,7 @@
   (:use     [blog.bll.protocols.common-protocol]
             [blog.bll.protocols.users-protocol])
   (:require [blog.layout :as layout]
-            [compojure.core :refer [defroutes GET]]
+            [compojure.core :refer [defroutes GET POST]]
             [ring.util.http-response :as response]
             [clojure.java.io :as io]
             [blog.bll.services.users-service])
@@ -18,8 +18,14 @@
   (layout/render "about.html"))
 
 (defroutes home-routes
-  (GET "/" [] (home-page))
+  (GET "/home" [] (home-page))
   (GET "/about" [] (about-page))
+  (GET "/register" [] ())
+  (POST "/register" [] ())
+  (GET "signin" [] ())
+  (POST "signin" [] ())
+
+  ;just example
   (GET "/a" [] (get-all-items users-service-instance))
   (GET "/a/:login" [login] (get-user-by-login users-service-instance login)))
 
