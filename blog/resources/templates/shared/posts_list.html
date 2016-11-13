@@ -1,0 +1,8 @@
+{% for item in posts %}
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2 col-xs-12">
+			<h3><a href="post/{{item.id}}">{{item.name}}</a></h3>
+			<div class="bigword bg-info img-rounded"><p>{{item.text}}</p></div>
+		</div>
+	</div>
+{% endfor %}

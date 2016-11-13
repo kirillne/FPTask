@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/register" method="post" class="form-horizontal">
+	<h4>Create a new account.</h4>
+    <hr/>
+
+    <div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="login">Login: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<input name="login" id="login" type="text" class="form-control" placeholder="Login" >
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="password">Password: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<input name="password" id="password" type="password" class="form-control">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="password2">Password again: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<input name="password2" id="password2" type="password" class="form-control">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="name">Name: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<input name="name" id="name" type="text" class="form-control" placeholder="Name" >
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="surname">Surname: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<input name="surname" id="surname" type="text" class="form-control" placeholder="Surname" >
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="birth-date">Birth Date: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<input name="birth-date" id="birth-date" type="date" class="form-control">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="sex">Sex: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<label class="radio-inline">
+  				<input type="radio" name="sex" id="mail" value="true"> Mail
+			</label>
+			<label class="radio-inline">
+ 				<input type="radio" name="sex" id="femail" value="false"> Femail
+			</label>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="country">Country: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<input name="country" id="country" type="text" class="form-control" placeholder="Country" >
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="sity">Sity: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<input name="sity" id="sity" type="text" class="form-control" placeholder="Sity" >
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="address">Address: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<input name="address" id="address" type="text" class="form-control" placeholder="Address">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-md-2 col-xs-10 control-label">
+			<label for="email">Email: </label>
+		</div>
+		<div class="col-md-8 col-xs-10">
+			<input name="email" id="email" type="email" class="form-control">
+		</div>
+	</div>
+
+	<div class="form-group">
+        <div class="col-xs-offset-2 col-md-8 col-xs-10">
+            <input type="submit" class="btn btn-default" value="Register"/>
+        </div>
+    </div>
+</form>
+{% endblock %}

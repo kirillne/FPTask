@@ -32,3 +32,9 @@ body {
   }
 }
 
+.bigword {
+    word-break: break-all;
+    white-space: pre-line;
+    padding: 10px;
+}
+
