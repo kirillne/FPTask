@@ -16,19 +16,15 @@
 
 (def app-routes
   (routes
-    (-> #'home-routes
-        (wrap-routes middleware/wrap-csrf)
+    (-> #'home-routes 
         (wrap-routes middleware/wrap-formats))
     (-> #'users-routes
-    	(wrap-routes middleware/wrap-csrf)
         (wrap-routes middleware/wrap-formats)
         (wrap-routes middleware/wrap-restricted))
     (-> #'posts-routes
-    	(wrap-routes middleware/wrap-csrf)
         (wrap-routes middleware/wrap-formats)
         (wrap-routes middleware/wrap-restricted))
     (-> #'comments-routes
-    	(wrap-routes middleware/wrap-csrf)
         (wrap-routes middleware/wrap-formats)
         (wrap-routes middleware/wrap-restricted))
     (route/not-found

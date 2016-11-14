@@ -1,31 +1,18 @@
 (ns blog.routes.home
-  (:use     [blog.bll.protocols.common-protocol]
-            [blog.bll.protocols.users-protocol])
   (:require [blog.layout :as layout]
             [compojure.core :refer [defroutes GET POST]]
             [ring.util.http-response :as response]
-            [clojure.java.io :as io]
-            [blog.bll.services.users-service])
-  (:import  [blog.bll.services.users_service users-service]))
+            [blog.controllers.home-controller :as home]))
 
-(def users-service-instance (users-service.))
 
-(defn home-page []
-  (layout/render
-    "home.html" {:docs (-> "docs/docs.md" io/resource slurp)}))
-
-(defn about-page []
-  (layout/render "about.html"))
+  
+(defn registration [])
 
 (defroutes home-routes
-  (GET "/home" [] (home-page))
-  (GET "/about" [] (about-page))
-  (GET "/register" [] ())
-  (POST "/register" [] ())
-  (GET "signin" [] ())
-  (POST "signin" [] ())
-
-  ;just example
-  (GET "/a" [] (get-all-items users-service-instance))
-  (GET "/a/:login" [login] (get-user-by-login users-service-instance login)))
+  (GET "/home" [] (home/home-page))
+  (GET "/about" [] (home/about-page))
+  (GET "/registration" [] (home/registration-page [nil]))
+  (POST "/registration" [& params] (home/register params)) ;(home/register login password password2 name surname birth-date sex country city address email))
+  (GET "/signin" [] (home/signin-page))
+  (POST "/signin" [login password] (println login password)))
 
