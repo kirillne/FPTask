@@ -1,6 +1,6 @@
 (ns blog.routes.comments
 	(:require [blog.layout :as layout]
-            [compojure.core :refer [defroutes GET]]
+            [compojure.core :refer [defroutes GET POST PUT]]
             [ring.util.http-response :as response]
             [clojure.java.io :as io]))
 
