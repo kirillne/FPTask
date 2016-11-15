@@ -3,7 +3,7 @@
 -- :name get-all-users :query :many
 SELECT * FROM users;
 
--- :name get-user :query :many
+-- :name get-user :query :one
 SELECT * FROM users
 WHERE id = :id
 
@@ -20,15 +20,15 @@ WHERE id = :id
 DELETE FROM users
 WHERE id = :id
 
--- :name get-user-by-login :query :many
+-- :name get-user-by-login :query :one
 SELECT * FROM users
 WHERE login = :login
 
--- :name get-seed-by-id :query :many
+-- :name get-seed-by-id :query :one
 SELECT seed FROM users
 WHERE id = :id
 
--- :name get-seed-by-login :query :many
+-- :name get-seed-by-login :query :one
 SELECT seed FROM users
 WHERE login = :login
 
@@ -41,7 +41,7 @@ WHERE login = :login
 -- :name get-all-profiles :query :many
 SELECT * FROM profiles
 
--- :name get-profile :query :many
+-- :name get-profile :query :one
 SELECT * FROM profiles
 WHERE user_id = :id
 
@@ -79,7 +79,7 @@ WHERE city = :city
 -- :name get-all-posts :query :many
 SELECT * FROM posts
 
--- :name get-post :query :many
+-- :name get-post :query :one
 SELECT * FROM posts
 WHERE id = :id
 
@@ -109,7 +109,7 @@ WHERE creation_date = :creation-date
 -- :name get-all-comments :query :many
 SELECT * FROM comments
 
--- :name get-comment :query :many
+-- :name get-comment :query :one
 SELECT * FROM comments
 WHERE id = :id
 

@@ -5,6 +5,6 @@
             [clojure.java.io :as io]))
 
 (defroutes users-routes
-	(GET "/users/:id" [id] ())
+	(GET "/users/:login" [login] ())
 	(GET "/profiles/:id" [id] ())
 	(PUT "/profiles/:id" [id] ()))
