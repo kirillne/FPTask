@@ -40,12 +40,13 @@
 								
 (defn create-user [login password] (let [salt (str (rand-int 123456789))
 									  hash-password (hashers/encrypt password {:alg :pbkdf2+sha256 :salt salt})]
-								 (create-item user-repository {:login login :password hash-password :salt salt})
-								 (:id (get-user-by-login user-repository {:login login}))))
+								 (create-item user-repository {:id nil :login login :password hash-password :seed salt})
+								 (:id (get-user-by-login user-repository login))))
 								 
 (defn create-profile [params] (create-item profile-repository params))
 
 (defn register [user] (let [validation-result (first (validate-new-user user))]
-					  (if (validation-result)  
-						(registration-page (validation-result)) 
-						(create-profile (assoc user :id (create-user (:login user) (:password user)))))))
+					  (if (nil? validation-result)  
+					  	(create-profile (assoc user :id (create-user (:login user) (:password user))))
+						(registration-page (validation-result)))
+					  (registration-page "success")))
