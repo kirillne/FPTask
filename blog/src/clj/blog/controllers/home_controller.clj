@@ -48,8 +48,38 @@
 										 hash-password (hashers/encrypt password {:alg :pbkdf2+sha256 :salt salt})]
 								 	(create-item user-repository {:id nil :login login :password hash-password :seed salt})
 									(:id (get-user-by-login user-repository login))))
-								 
-(defn create-profile [params] (create-item profile-repository params))
+
+(defn add-nil-members [user] 
+	(let [
+		user-name (if-not (contains? user :name)
+					(assoc user :name nil) 
+					user)
+		user-surname (if-not (contains? user :surname)
+					(assoc user-name :surname nil) 
+					user-name)
+		user-birth-date (if (or (not (contains? user :birth-date)) (blank? (:birth-date user)))
+				    (assoc user-surname :birth-date nil) 
+					user-surname)
+		user-sex (if-not (contains? user :sex)
+				    (assoc user-birth-date :sex nil) 
+					user-birth-date)
+		user-country (if-not (contains? user :country)
+				    (assoc user-sex :country nil) 
+					user-sex)
+		user-city (if-not (contains? user :city)
+				    (assoc user-country :city nil) 
+					user-country)
+		user-address (if-not (contains? user :address)
+				    (assoc user-city :address nil) 
+					user-city)
+		user-email (if-not (contains? user :email)
+				    (assoc user-address :email nil) 
+					user-address)
+		]
+	user-email
+))
+
+(defn create-profile [params] (create-item profile-repository (add-nil-members params)))
 
 (defn register [user] (let [validation-result (first (validate-new-user user))]
 					  (if (nil? validation-result)  
