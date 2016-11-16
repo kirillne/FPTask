@@ -5,6 +5,7 @@
 		  [bouncer.validators :only [defvalidator]])
 	(:require [blog.dal.repositories.users-repository]
 			  [blog.dal.repositories.profiles-repository]
+			  [blog.utils.messages-utils :as utils]
 			  [bouncer.core :as b]
               [bouncer.validators :as v]
 			  [clojure.string :refer [blank?]]
@@ -33,10 +34,12 @@
 
 (defvalidator equals  {:default-message-format "passwords are not equal"} [pass pass2] (= (compare pass pass2) 0))
 
+(defvalidator unique-login  {:default-message-format "user with such login already exist"} [login] (nil? (get-user-by-login user-repository login)))
+
 (defn validate-new-user [user] (b/validate user 
-								:login v/required
+								:login [v/required unique-login]
 								:password v/required
-								:password2 [v/required [equals (:password user)]]
+								:password2 [[v/required :message "Password confirmation must be present"] [equals (:password user)]]
 								:email [[v/email :pre (comp not blank? :email)]]
 								:birth-date [[v/datetime :pre (comp not blank? :birth-date)]]))
 
@@ -83,9 +86,11 @@
 
 (defn register [user] (let [validation-result (first (validate-new-user user))]
 					  (if (nil? validation-result)  
-						  (create-profile (assoc user :id (create-user (:login user) (:password user))))
-						  (registration-page validation-result nil))
-					  (registration-page "success" nil)))
+						  (do
+						  	(create-profile (assoc user :id (create-user (:login user) (:password user))))
+						  	(registration-page (utils/fix-validation-messages {:success "((registration completed successfully))"}) nil)
+						  )
+					  (registration-page (utils/fix-validation-messages validation-result) nil))))
 
 
 
@@ -110,7 +115,7 @@
 				(if (and hash-pass hash-pass-db (= hash-pass hash-pass-db))
 					(update-session request (:id user))
 					(signin-page "error in login or password" nil)))
-			(signin-page validation-result nil))))
+			(signin-page (utils/fix-validation-messages validation-result) nil))))
 
 (defn signout
   [request]

@@ -10,3 +10,15 @@ body {
     padding: 10px;
 }
 
+.field-validation-error {
+    color: #f00;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.message {
+    padding: 10px;
+}

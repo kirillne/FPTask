@@ -3,13 +3,22 @@
 <form action="/registration" method="post" class="form-horizontal">
 	<h4>Create a new account.</h4>
     <hr/>
-	{{messages}}
+    {% if messages.success %}
+		<div class="form-group">
+	        <div class="col-sm-offset-2 col-sm-8 col-xs-10">
+	            <div class="bg-success message img-rounded"><h4>{{messages.success}}</h4></div>
+	        </div>
+    	</div>
+	{% endif %}
     <div class="form-group">
 		<div class="col-sm-2 col-xs-10 control-label">
 			<label for="login">Login*: </label>
 		</div>
 		<div class="col-sm-8 col-xs-10">
-			<input name="login" id="login" type="text" class="form-control" placeholder="Login" >
+			<input name="login" id="login" type="text" class="{% if messages.login %}input-validation-error{% endif %} form-control" placeholder="Login" >
+			{% if messages.login %}
+				<span class="field-validation-error" data-valmsg-for="login" data-valmsg-replace="true">{{messages.login}}</span>
+			{% endif %}
 		</div>
 	</div>
 
@@ -18,16 +27,22 @@
 			<label for="password">Password*: </label>
 		</div>
 		<div class="col-sm-8 col-xs-10">
-			<input name="password" id="password" type="password" placeholder="Password" class="form-control">
+			<input name="password" id="password" type="password" placeholder="Password" class="{% if messages.login %}input-validation-error{% endif %} form-control">
+			{% if messages.password %}
+				<span class="field-validation-error" data-valmsg-for="password" data-valmsg-replace="true">{{messages.password}}</span>
+			{% endif %}
 		</div>
 	</div>
 
 	<div class="form-group">
 		<div class="col-sm-2 col-xs-10 control-label">
-			<label for="password2">Confirm Password"*: </label>
+			<label for="password2">Confirm Password*: </label>
 		</div>
 		<div class="col-sm-8 col-xs-10">
-			<input name="password2" id="password2" type="password" placeholder="Confirm Password"  class="form-control">
+			<input name="password2" id="password2" type="password" placeholder="Confirm Password"  class="{% if messages.login %}input-validation-error{% endif %} form-control">
+			{% if messages.password2 %}
+				<span class="field-validation-error" data-valmsg-for="password2" data-valmsg-replace="true">{{messages.password2}}</span>
+			{% endif %}
 		</div>
 	</div>
 
