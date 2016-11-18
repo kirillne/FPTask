@@ -14,7 +14,7 @@
 			  [buddy.hashers :as hashers]
 			  [buddy.auth.backends :as backends])
 	(:import  [blog.dal.repositories.users_repository users-repository]
-			[blog.dal.repositories.profiles_repository profiles-repository]))
+			  [blog.dal.repositories.profiles_repository profiles-repository]))
 			
 (defn home-page [request]
   (layout/render
@@ -117,7 +117,6 @@
 					(signin-page "error in login or password" nil)))
 			(signin-page (utils/fix-validation-messages validation-result) nil))))
 
-(defn signout
-  [request]
+(defn signout [request]
   (-> (redirect "/home")
       (assoc :session {})))

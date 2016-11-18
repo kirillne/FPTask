@@ -83,7 +83,7 @@ SELECT * FROM posts
 SELECT * FROM posts
 WHERE id = :id
 
--- :name create-post :execute :affected
+-- :name create-post :insert
 INSERT INTO posts
 VALUES (:id, :name, :creation-date, :user-id, :text)
 
@@ -133,6 +133,7 @@ WHERE user_id = :user-id
 -- :name get-comments-by-post-id :query :many
 SELECT * FROM comments
 WHERE post_id = :post-id
+ORDER BY creation_date
 
 -- :name delete-comment-by-post-id :execute :affected
 DELETE FROM comments

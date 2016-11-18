@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+{% style "/toopay-bootstrap-markdown/css/bootstrap-markdown.min.css" %}
+<form action="/post{% if post.id %}/edit/{{post.id}}{% endif %}" method="post" class="form-horizontal">
+	{% if messages.success %}
+		<div class="form-group">
+	        <div class="col-sm-offset-2 col-sm-8 col-xs-10">
+	            <div class="bg-success message img-rounded"><h4>{{messages.success}}</h4></div>
+	        </div>
+    	</div>
+	{% endif %}
+	<h4>{% if post.id %}Edit Post.{% else %}New Post.{% endif %}</h4>
+    <hr/>
+    <div class="form-group">
+		<div class="col-sm-offset-2 col-sm-8 col-xs-10">
+			<input name="name" id="name" type="text" class="{% if messages.name %}input-validation-error{% endif %}  form-control" placeholder="Name" value="{{post.name}}" >
+			{% if messages.name %}
+				<span class="field-validation-error" data-valmsg-for="name" data-valmsg-replace="true">{{messages.name}}</span>
+			{% endif %}
+		</div>
+	</div>
+	
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-8 col-xs-10">
+			<textarea name="text" data-provide="markdown" rows="30">{{post.text}}</textarea>
+		</div>
+	</div>
+	
+	<div class="form-group">
+        <div class="col-sm-offset-2 col-sm-8 col-xs-10">
+            <input type="submit" class="btn btn-default" value="Save"/>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block page-scripts %}
+	{% script "/toopay-bootstrap-markdown/js/to-markdown.js" %}
+	{% script "/toopay-bootstrap-markdown/js/markdown.min.js" %}	
+    {% script "/toopay-bootstrap-markdown/js/bootstrap-markdown.js" %}
+{% endblock %}
