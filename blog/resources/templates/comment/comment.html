@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+{% style "/toopay-bootstrap-markdown/css/bootstrap-markdown.min.css" %}
+  	<h2><p class="text-center">{% if info.id %}Edit Comment{% else %}New Comment{% endif %}</p></h2>
+  	<h4><p class="text-right "><small>{{info.user.name}} {{info.user.surname}}</small></p></h4>
+	
+
+	<form action="/comments/{% if info.id %}edit/{{info.post-id}}/{{info.id}}{% else %}new/{{postid}}/{{user.id}}{% endif %}" method="post" class="form-horizontal">
+		<h4>{% if info.id %}Edit Comment{% else %}Add Comment{% endif %}</h4>
+		<hr/>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-8 col-xs-10">
+				<textarea name="text" data-provide="markdown" rows="30">{{info.text}}</textarea>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-8 col-xs-10">
+				<input type="submit" class="btn btn-default" value="Save"/>
+			</div>
+		</div>
+	</form>
+{% endblock %}
+{% block page-scripts %}
+	{% script "/toopay-bootstrap-markdown/js/to-markdown.js" %}
+	{% script "/toopay-bootstrap-markdown/js/markdown.min.js" %}	
+    {% script "/toopay-bootstrap-markdown/js/bootstrap-markdown.js" %}
+{% endblock %}

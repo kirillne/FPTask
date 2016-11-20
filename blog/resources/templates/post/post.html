@@ -32,6 +32,16 @@
             <h4><p class="text-right "><small>{{comment.user.name}} {{comment.user.surname}} ({{comment.creation-date}})</small></p></h4>
             <div class="bigword bg-info img-rounded"><p>{{comment.text}}</p></div>
         </div>
+		<div class="col-sm-2 col-xs-12">
+			<form action="/comments/{{info.post.id}}/{{comment.id}}" method="get">
+			    <input type="submit" class="btn btn-default" value="Edit Comment" />
+			</form>
+		</div>
+		<div class="col-sm-2 col-xs-12">
+			<form action="/comments/delete/{{info.post.id}}/{{comment.id}}" method="POST">
+			    <input type="submit" class="btn btn-default" value="Delete Comment" />
+			</form>
+		</div>
     </div>
 	{% endfor %}
 
