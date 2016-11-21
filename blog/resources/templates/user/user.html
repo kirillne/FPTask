@@ -1,47 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron">
-	<h2>
+<div>
+	<h2><p class="text-center">
 		{{info.profile.name}} {{info.profile.surname}} {% ifequal user.id info.profile.id %} (You) {% endifequal %} 
-	</h2>
-	<h3>
+	</p></h2>
+	<h4>
 		Login: {{info.profile.login}} 
-	</h3>
-	<h3>
+	</h4>
+	<h4>
 		Email: {{info.profile.email}} 
-	</h3>
+	</h4>
 </div>
 
-{% for item in info.posts %}
+{% ifequal user.id info.profile.id %}
+	<form action="/posts" method="get">
+	    <input type="submit" class="btn btn-success" value="New Post" />
+	</form>
+{% endifequal %}
 
-    <div class="row">
-    	<div class="col-sm-10 col-xs-12">
-    		<div class="panel panel-primary">
-    			<div class="panel-heading">
-    				<h2>
-	                   	<a style="color: white" href="/posts/{{item.id}}">{{item.name}}</a> 
-	                </h2>
-	             </div>
-	             <div class="panel-body">
-	             <div class="row">
-	  				<div class="col-sm-11">
-	  					{{item.text|markdown}}
-	  				</div>
-				</div>
-				
-	                <p class="text-right">{{item.creation-date}}</p>
-				<div class="row">
-	                <div class="col-sm-10 col-xs-12">
-	                    <h4>
-	                   		Comments ({% if item.count  %}{{item.count}}{%else%}0{%endif%})
-	                    </h4>
-	                </div>
-	            </div>
-	             </div>
-				
-    		</div>
-    		
-    	</div>
-   	</div>  
-{% endfor %}
+ <div class="row">
+    <div class="col-sm-12 col-xs-12">
+		<div class="list-group">
+			{% for item in info.posts %}
+			    <a href="/posts/{{item.id}}" class="list-group-item list-group-item-action">
+    				<h4 class="list-group-item-heading">{{item.name}}</h4>
+    				<p class="list-group-item-text">{{item.creation-date}}</p>
+    				<p class="list-group-item-text">Comments ({{item.count}})</p>
+  				</a>				    	
+			{% endfor %}
+		</div>
+	</div>  
+</div> 
 {% endblock %}
