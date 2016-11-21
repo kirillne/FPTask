@@ -118,7 +118,7 @@ WHERE creation_date = :creation-date
 -- :name get-posts-with-comments-count :query :many
 SELECT * FROM
 (SELECT p.id, p.name, p.creation_date, p.text, p.user_id, c.count FROM posts AS p
-JOIN (SELECT post_id, COUNT (*) AS count FROM comments GROUP BY post_id) AS c
+LEFT JOIN (SELECT post_id, COUNT (*) AS count FROM comments GROUP BY post_id) AS c
 ON p.id = c.post_id)
 WHERE user_id = :user-id
 

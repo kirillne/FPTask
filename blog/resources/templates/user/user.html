@@ -33,7 +33,7 @@
 				<div class="row">
 	                <div class="col-sm-10 col-xs-12">
 	                    <h4>
-	                   		Comments ({{item.count}})
+	                   		Comments ({% if item.count  %}{{item.count}}{%else%}0{%endif%})
 	                    </h4>
 	                </div>
 	            </div>
