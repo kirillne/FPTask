@@ -2,9 +2,10 @@
 	(:require [blog.layout :as layout]
             [compojure.core :refer [defroutes GET PUT]]
             [ring.util.http-response :as response]
-            [clojure.java.io :as io]))
+            [blog.controllers.user-controller :as user]))
 
 (defroutes users-routes
-	(GET "/users/:login" [login] ())
-	(GET "/profiles/:id" [id] ())
-	(PUT "/profiles/:id" [id] ()))
+	(GET "/users" [:as request] (user/view-users request))
+	(GET "/users/:login" [:as request login] (user/view-user request login))
+	(GET "/profiles/:id" [:as request id] ())
+	(PUT "/profiles/:id" [:as request id] ()))

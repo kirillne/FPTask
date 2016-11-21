@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>
+    <p class="">All Users</p>
+</h2>
+{% for item in users %}
+
+    <div class="row">
+    	<div class="col-sm-10 col-xs-12">
+    		<div class="jumbotron">
+                <div class="row">
+                    <div class="col-sm-10 col-xs-12">
+                        <h4>
+                            <a href="/users/{{item.login}}">{{item.login}}</a> {% ifequal user.id item.id %} (You) {% endifequal %}    
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 col-xs-12">
+                        <h4>
+                            Name: {{item.name}} {{item.surname}}
+                        </h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-10 col-xs-12">
+                        <h4>
+                            Email: {{item.email}}
+                        </h4>
+                    </div>
+                </div>
+    		</div>
+    	</div>
+   	</div>  
+{% endfor %}
+{% endblock %}

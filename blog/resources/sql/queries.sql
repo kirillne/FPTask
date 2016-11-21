@@ -36,6 +36,17 @@ WHERE login = :login
 DELETE FROM users
 WHERE login = :login
 
+-- :name get-full-users-info :query :many
+SELECT u.id, u.login, u.password, u.seed, p.name, p.surname, p.birth_date, p.sex, p.country, p.city, p.address, p.email FROM users AS u
+JOIN profiles AS p
+ON u.id = p.user_id
+
+-- :name get-full-user-info :query :one
+SELECT * FROM
+(SELECT u.id, u.login, u.password, u.seed, p.name, p.surname, p.birth_date, p.sex, p.country, p.city, p.address, p.email FROM users AS u
+JOIN profiles AS p
+ON u.id = p.user_id)
+WHERE id = :user-id
 --------------------------------------- profiles
 
 -- :name get-all-profiles :query :many
@@ -103,6 +114,13 @@ WHERE user_id = :user-id
 -- :name get-posts-by-creation-date :query :many
 SELECT * FROM posts
 WHERE creation_date = :creation-date
+
+-- :name get-posts-with-comments-count :query :many
+SELECT * FROM
+(SELECT p.id, p.name, p.creation_date, p.text, p.user_id, c.count FROM posts AS p
+JOIN (SELECT post_id, COUNT (*) AS count FROM comments GROUP BY post_id) AS c
+ON p.id = c.post_id)
+WHERE user_id = :user-id
 
 --------------------------------------- comments
 

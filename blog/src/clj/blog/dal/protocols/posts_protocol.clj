@@ -3,4 +3,5 @@
 (defprotocol posts-repository-protocol
 	(get-posts-by-user-id [this user-id])
 	(get-posts-by-creation-date [this creation-date])
+	(get-posts-with-comments-count [this user-id])
 )
