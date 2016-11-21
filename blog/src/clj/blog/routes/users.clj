@@ -6,6 +6,6 @@
 
 (defroutes users-routes
 	(GET "/users" [:as request] (user/view-users request))
-	(GET "/users/:login" [:as request login] (user/view-user request login))
+	(GET "/users/:id" [:as request id] (user/view-user request id))
 	(GET "/profiles/:id" [:as request id] ())
 	(PUT "/profiles/:id" [:as request id] ()))

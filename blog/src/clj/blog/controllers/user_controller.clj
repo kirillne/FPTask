@@ -49,12 +49,12 @@
 		  users (get-full-users-info user-repository)]
 	(users-page request users)))
 
-(defn view-user [request login] 
+(defn view-user [request id] 
 	(let [
-		user (get-user-by-login user-repository login)
-		posts (get-posts-with-comments-count post-repository (:id user))
+		user (get-item user-repository {:id id})
+		posts (get-posts-with-comments-count post-repository id)
 		]
 	(if (nil? user)
 		(redirect "/error")
-		(user-page request (get-posts-info posts (:id user)) nil))))
+		(user-page request (get-posts-info posts id) nil))))
 

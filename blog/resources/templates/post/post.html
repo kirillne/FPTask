@@ -32,7 +32,7 @@
 
 	{% for comment in info.comments %}
     <div class="row">
-        <div class="col-sm-8 col-md-offset-2 col-xs-12">
+        <div class="col-sm-8 col-sm-offset-2 col-xs-12">
             <h4><p class="text-right "><small>{{comment.user.name}} {{comment.user.surname}} ({{comment.creation-date}})</small></p></h4>
             <div class="bigword bg-info img-rounded"><p>{{comment.text}}</p></div>
         </div>

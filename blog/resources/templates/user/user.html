@@ -12,20 +12,22 @@
 	</h4>
 </div>
 
-{% ifequal user.id info.profile.id %}
-	<form action="/posts" method="get">
-	    <input type="submit" class="btn btn-success" value="New Post" />
-	</form>
+ {% ifequal user.id info.profile.id %}			
+	<form action="/post" method="get" >
+		<input type="submit" class="btn btn-success" value="New Post" />
+	</form>	
 {% endifequal %}
 
- <div class="row">
+</br>
+
+<div class="row">
     <div class="col-sm-12 col-xs-12">
 		<div class="list-group">
 			{% for item in info.posts %}
 			    <a href="/posts/{{item.id}}" class="list-group-item list-group-item-action">
     				<h4 class="list-group-item-heading">{{item.name}}</h4>
     				<p class="list-group-item-text">{{item.creation-date}}</p>
-    				<p class="list-group-item-text">Comments ({{item.count}})</p>
+    				<p class="list-group-item-text">Comments ({% if item.count  %}{{item.count}}{%else%}0{%endif%})	</p>
   				</a>				    	
 			{% endfor %}
 		</div>
