@@ -46,10 +46,10 @@
 (deftype posts-cache-repository [] 
 	common-repository-protocol
 	(get-all-items [this] (get-all-items posts-repository))
-	(get-item [this params] (println @cache) (get-post (:id params)))
+	(get-item [this params] (get-post (:id params)))
 	(create-item [this params] (add-post params))
 	(update-item [this params] (update-post params))
-	(delete-item [this params])
+	(delete-item [this params] (delete-post params))
 
 	posts-repository-protocol
 	(get-posts-by-user-id [this user-id] (get-posts-by-user-id posts-repository user-id))
