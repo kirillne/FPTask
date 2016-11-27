@@ -12,6 +12,7 @@
 		[blog.dal.repositories.comments-repository]
 		[blog.layout :as layout]
 		[bouncer.core :as b]
+		[clojure.string :refer [blank?]]
         [bouncer.validators :as v]
         [blog.utils.messages-utils :as utils]
         [ring.util.response :refer [redirect]])
@@ -57,4 +58,26 @@
 	(if (nil? user)
 		(redirect "/error")
 		(user-page request (get-posts-info posts id) nil))))
+
+(defn view-profile [request id]
+	(let [
+		identity-id  (:identity (:session request))
+		]
+	(if (= (str identity-id) id)
+		(profile-page request (get-full-user-info user-repository id) nil)
+		(redirect "/error"))))
+
+(defn validate-profile [profile] (b/validate profile
+									:email [[v/email :pre (comp not blank? :email)]]
+									:birth-date [[v/datetime :pre (comp not blank? :birth-date)]]))
+
+(defn update-profile [request id] 
+	(let [
+		profile (:params request)
+		validation-result (first (validate-profile profile))]
+	(if (nil? validation-result)
+		(do
+			(update-item profile-repository profile)
+			(profile-page request (get-full-user-info user-repository id) (utils/fix-validation-messages {:success "((update completed successfully))"})))
+		(profile-page request (get-full-user-info user-repository id) (utils/fix-validation-messages validation-result)))))
 
