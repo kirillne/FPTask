@@ -42,7 +42,7 @@
 		post {:name name :text text :user-id (:identity (:session request)) :creation-date (now)}
 		validation-result (first (validate-post post))]
 		(if (nil? validation-result)
-			(redirect (str "/posts/" (get (first (create-item post-repository (assoc post :id nil))) 1 )))
+			(redirect (str "/posts/" (create-item post-repository (assoc post :id nil))))
 			(add-post-page request post (utils/fix-validation-messages validation-result)))))
 
 (defn get-edit-post [request post-id] 

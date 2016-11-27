@@ -43,9 +43,13 @@
 	(swap! cache dissoc (keyword (:id params)))
 )
 
+(defn get-all []
+	(reset! cache (get-all-items posts-repository))
+)
+
 (deftype posts-cache-repository [] 
 	common-repository-protocol
-	(get-all-items [this] (get-all-items posts-repository))
+	(get-all-items [this] (get-all))
 	(get-item [this params] (get-post (:id params)))
 	(create-item [this params] (add-post params))
 	(update-item [this params] (update-post params))
