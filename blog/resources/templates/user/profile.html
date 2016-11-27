@@ -44,10 +44,10 @@
 		</div>
 		<div class="col-sm-8 col-xs-10">
 			<label class="radio-inline">
-  				<input type="radio" name="sex" id="mail" value="{{profile.sex}}" > Mail
+  				<input type="radio" name="sex" id="mail" value="true" {% if profile.sex %} checked {% endif %}> Mail
 			</label>
 			<label class="radio-inline">
- 				<input type="radio" name="sex" id="femail" > Femail
+ 				<input type="radio" name="sex" id="femail" value="false" {% if not profile.sex %} checked {% endif %}> Femail
 			</label>
 		</div>
 	</div>

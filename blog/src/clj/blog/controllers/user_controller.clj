@@ -67,13 +67,43 @@
 		(profile-page request (get-full-user-info user-repository id) nil)
 		(redirect "/error"))))
 
+(defn add-nil-members [user] 
+	(let [
+		user-name (if-not (contains? user :name)
+					(assoc user :name nil) 
+					user)
+		user-surname (if-not (contains? user :surname)
+					(assoc user-name :surname nil) 
+					user-name)
+		user-birth-date (if (or (not (contains? user :birth-date)) (blank? (:birth-date user)))
+				    (assoc user-surname :birth-date nil) 
+					user-surname)
+		user-sex (if-not (contains? user :sex)
+				    (assoc user-birth-date :sex nil) 
+					user-birth-date)
+		user-country (if-not (contains? user :country)
+				    (assoc user-sex :country nil) 
+					user-sex)
+		user-city (if-not (contains? user :city)
+				    (assoc user-country :city nil) 
+					user-country)
+		user-address (if-not (contains? user :address)
+				    (assoc user-city :address nil) 
+					user-city)
+		user-email (if-not (contains? user :email)
+				    (assoc user-address :email nil) 
+					user-address)
+		]
+	user-email
+))
+
 (defn validate-profile [profile] (b/validate profile
 									:email [[v/email :pre (comp not blank? :email)]]
 									:birth-date [[v/datetime :pre (comp not blank? :birth-date)]]))
 
 (defn update-profile [request id] 
 	(let [
-		profile (:params request)
+		profile (add-nil-members (:params request))
 		validation-result (first (validate-profile profile))]
 	(if (nil? validation-result)
 		(do
