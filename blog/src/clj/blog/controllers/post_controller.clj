@@ -5,7 +5,7 @@
 		[blog.dal.protocols.profiles-protocol]
 		[blog.dal.protocols.comments-protocol])
 	(:require 
-		[blog.dal.repositories.posts-repository]
+		[blog.dal.cache.posts-cache-repository]
 		[blog.dal.repositories.profiles-repository]
 		[blog.dal.repositories.comments-repository]
 		[blog.layout :as layout]
@@ -14,7 +14,7 @@
         [blog.utils.messages-utils :as utils]
         [ring.util.response :refer [redirect]])
 	(:import  
-		[blog.dal.repositories.posts_repository posts-repository]
+		[blog.dal.cache.posts_cache_repository posts-cache-repository]
 		[blog.dal.repositories.profiles_repository profiles-repository]
 		[blog.dal.repositories.comments_repository comments-repository]))
 
@@ -26,7 +26,7 @@
   (layout/render
     request "post/post.html" {:info info :messages messages}))
 
-(def post-repository (posts-repository.))
+(def post-repository (posts-cache-repository.))
 (def profile-repository (profiles-repository.))
 (def comment-repository (comments-repository.))
 
@@ -56,7 +56,8 @@
 	(let [
 		name (get-in request [:form-params "name"])
 		text (get-in request [:form-params "text"])
-		post {:name name :text text}
+		from-db (get-item post-repository {:id post-id})
+		post  (assoc from-db :name name :text text)
 		validation-result (first (validate-post post))]
 		(if (nil? validation-result)
 			(do
