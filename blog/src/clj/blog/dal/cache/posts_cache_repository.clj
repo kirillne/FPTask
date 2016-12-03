@@ -34,7 +34,7 @@
 		id))
 
 (defn update-post [post]
-	(send db update-item post)
+	(update-item post-repository post)
 	(swap! cache assoc (keyword (:id post)) post)
 )
 
