@@ -4,6 +4,7 @@
             [blog.routes.home :refer [home-routes]]
             [blog.routes.users :refer [users-routes]]
             [blog.routes.posts :refer [posts-routes]]
+            [blog.routes.dsl :refer [dsl-routes]]
             [blog.routes.comments :refer [comments-routes]]
             [compojure.route :as route]
             [blog.env :refer [defaults]]
@@ -25,6 +26,9 @@
         (wrap-routes middleware/wrap-formats)
         (wrap-routes middleware/wrap-restricted))
     (-> #'comments-routes
+        (wrap-routes middleware/wrap-formats)
+        (wrap-routes middleware/wrap-restricted))
+    (-> #'dsl-routes
         (wrap-routes middleware/wrap-formats)
         (wrap-routes middleware/wrap-restricted))
     (route/not-found

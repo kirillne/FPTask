@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="form-horisontal" action="/dsl" method="post">
+
+  <div class="input-group input-group-lg">
+      <input type="text" class="form-control"  id="query" name="query" placeholder="You Query">
+      <span class="input-group-btn">
+      	<button type="submit" class="btn btn-xs"><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span></button>
+      </span>
+    </div>
+</form>
+
+{% if not message|empty? %}
+</br>
+<div class="alert alert-danger">
+  <strong>Error!</strong> {{message}}
+</div>
+{% endif %}
+
+{% if not result|empty? %}
+<div>
+<h2>Result</h2>
+{{result|linebreaks|safe}}
+</div>
+{% endif %}
+
+</br>
+<div class="alert alert-info">
+	<h3>Help</h3>
+	<p>
+		<strong> Command format: </strong> </br><code>entity command [{key=value}]</code>
+	</p>
+	<p>
+		Available entities:
+		<ul>
+		<li> profile </li>
+		<li> user </li>
+		<li> comment </li>
+		<li> post </li>
+		</ul>
+	</p>
+	<p>
+		Available commands:
+		<ul>
+		<li> get </li>
+		<li> get-all </li>
+		<li> create </li>
+		<li> update </li>
+		<li> delete </li>
+		</ul>
+	</p>
+	</br>
+	<h4>Example</h4>
+<pre>comment get-all
+post get id=34
+comment delete id=34
+post create name=New! creation-date=2016-12-10 user-id=97 text=TEXT!!!!
+post update name=Name2! creation-date=2016-12-10 user-id=97 text=TEXT!!!! id=69</pre>
+</div>
+
+{% endblock %}
