@@ -117,10 +117,15 @@ WHERE creation_date = :creation-date
 
 -- :name get-posts-with-comments-count :query :many
 SELECT * FROM
-(SELECT p.id, p.name, p.creation_date, p.text, p.user_id, c.count FROM posts AS p
-LEFT JOIN (SELECT post_id, COUNT (*) AS count FROM comments GROUP BY post_id) AS c
-ON p.id = c.post_id)
-WHERE user_id = :user-id
+(SELECT * FROM
+	(SELECT p.id, p.name, p.creation_date, p.text, p.user_id, c.count FROM posts AS p
+	LEFT JOIN (SELECT post_id, COUNT (*) AS count FROM comments GROUP BY post_id) AS c
+	ON p.id = c.post_id)
+WHERE user_id = :user-id) AS pc
+LEFT JOIN 
+(SELECT * FROM posts_ratings
+ WHERE user_id = :current-user-id) as pr
+ON pc.id = pr.post_id
 
 --------------------------------------- comments
 
@@ -174,9 +179,14 @@ WHERE comment_id = :comment-id AND user_id = :user-id
 INSERT INTO posts_ratings
 VALUES (:post-id, :user-id, :value)
 
--- :name update-comments-ratings :execute :affected
+-- :name update-post-rating :execute :affected
 UPDATE posts_ratings
 SET value = :value
+WHERE post_id = :post-id AND user_id = :user-id
+
+-- :name get-existing :query :one
+SELECT *
+FROM posts_ratings
 WHERE post_id = :post-id AND user_id = :user-id
 
 

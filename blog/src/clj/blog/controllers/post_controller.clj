@@ -84,3 +84,12 @@
 		(if (nil? post)
 			(redirect "/error")
 			(view-post-page request (get-post-info post) nil))))
+
+(defn add-rating [request user-id post-id value page-id] 
+	(let [
+		exists (get-existing post-repository user-id post-id)
+		bool-value (if (= value "1") (boolean true) (boolean false) )] 
+		(if (nil? exists) 
+			(add-post-rating post-repository user-id post-id bool-value) 
+			(update-post-rating post-repository user-id post-id bool-value))
+		(redirect (str "/users/" page-id))))

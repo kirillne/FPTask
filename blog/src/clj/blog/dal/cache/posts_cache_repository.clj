@@ -56,8 +56,11 @@
 	(delete-item [this params] (delete-post params))
 
 	posts-repository-protocol
-	(get-posts-by-user-id [this user-id] (get-posts-by-user-id posts-repository user-id))
-	(get-posts-by-creation-date [this creation-date] (get-posts-by-user-id posts-repository creation-date))
-	(get-posts-with-comments-count [this user-id] (get-posts-by-user-id posts-repository user-id)))
+	(get-posts-by-user-id [this user-id] (get-posts-by-user-id post-repository user-id))
+	(get-posts-by-creation-date [this creation-date] (get-posts-by-user-id post-repository creation-date))
+	(get-posts-with-comments-count-restricted [this user-id current-user-id] (get-posts-with-comments-count-restricted post-repository user-id current-user-id))
+	(add-post-rating [this user-id post-id value] (add-post-rating post-repository user-id post-id value))
+	(update-post-rating [this user-id post-id value] (update-post-rating post-repository user-id post-id value))
+	(get-existing [this user-id post-id] (get-existing post-repository user-id post-id)))
 
 

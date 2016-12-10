@@ -27,8 +27,10 @@
 		request "user/users.html" {:users users}))
 
 (defn user-page [request info messages]
-  (layout/render
-    request "user/user.html" {:info info :messages messages}))
+  ( 
+  	layout/render
+    request "user/user.html" {:info info :messages messages})
+ )
 
 (defn profile-page [request profile messages]
   (layout/render
@@ -52,8 +54,9 @@
 
 (defn view-user [request id] 
 	(let [
+		identity-id  (:identity (:session request))
 		user (get-item user-repository {:id id})
-		posts (get-posts-with-comments-count post-repository id)
+		posts (get-posts-with-comments-count-restricted post-repository id identity-id)
 		]
 	(if (nil? user)
 		(redirect "/error")

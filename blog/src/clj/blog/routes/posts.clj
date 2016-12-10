@@ -10,5 +10,5 @@
 	(GET "/posts/:post-id" [post-id :as request] (post/view-post request post-id))
 	(GET "/post/edit/:post-id" [post-id :as request] (post/get-edit-post request post-id))
 	(POST "/post/edit/:post-id" [post-id :as request] (post/edit-post request post-id))
-	(POST "/posts/rating/:post-id" [post-id] ())
+	(POST "/posts/rating/:user-id/:post-id" [user-id post-id value page-id :as request] (post/add-rating request user-id post-id value page-id))
 	(PUT "/posts/rating/:post-id" [post-id] ()))

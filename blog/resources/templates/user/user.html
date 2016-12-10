@@ -24,11 +24,40 @@
     <div class="col-sm-12 col-xs-12">
 		<div class="list-group">
 			{% for item in info.posts %}
-			    <a href="/posts/{{item.id}}" class="list-group-item list-group-item-action">
-    				<h4 class="list-group-item-heading">{{item.name}}</h4>
-    				<p class="list-group-item-text">{{item.creation-date}}</p>
-    				<p class="list-group-item-text">Comments ({% if item.count  %}{{item.count}}{%else%}0{%endif%})	</p>
-  				</a>				    	
+				<div class="row">
+					<div class="col-sm-10 col-xs-10">
+					    <a href="/posts/{{item.id}}" class="list-group-item list-group-item-action">
+		    				<h4 class="list-group-item-heading">{{item.name}}</h4>
+		    				<p class="list-group-item-text">{{item.creation-date}}</p>
+		    				<p class="list-group-item-text">Comments ({% if item.count  %}{{item.count}}{%else%}0{%endif%})	</p>
+		  				</a>
+	  				</div>
+	  				<div class="col-sm-2 col-xs-2">
+	  					</br>
+	  					<div class="row">
+	  						<div class="col-sm-12 col-xs-12">
+	  							<form action="/posts/rating/{{user.id}}/{{item.id}}" method="post">
+	  								<input type="hidden" name="value" value="1">
+	  								<input type="hidden" name="page-id" value="{{info.profile.id}}" >
+	  								<button type="submit" class="btn btn-success btn-xs" {% if item.can-rate = 1 %} disabled {% endif %}  >
+				    					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				    				</button>
+				    			</form>
+	  						</div>
+	  					</div>
+	  					<div class="row">
+	  						<div class="col-sm-12 col-xs-12">
+	  							<form action="/posts/rating/{{user.id}}/{{item.id}}" method="post">
+	  								<input type="hidden" name="value" value="-1">
+	  								<input type="hidden" name="page-id" value="{{info.profile.id}}">
+	  								<button type="submit" class="btn btn-danger btn-xs" {% if item.can-rate = -1 %} disabled {% endif %} >
+				    					<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+				    				</button>
+				    			</form>
+	  						</div>
+	  					</div>
+	  				</div>
+  				</div>			    	
 			{% endfor %}
 		</div>
 	</div>  
