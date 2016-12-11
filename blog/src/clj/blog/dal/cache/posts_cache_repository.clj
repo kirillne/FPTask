@@ -64,6 +64,7 @@
 	(get-existing [this user-id post-id] (get-existing post-repository user-id post-id))
 	(get-post-sum-rating [this post-id] (get-post-sum-rating post-repository post-id))
 	(get-posts-with-comments-count-and-ratings-restricted [this user-id current-user-id] (get-posts-with-comments-count-and-ratings-restricted post-repository user-id current-user-id))
+	(get-last-posts-with-comments-count-and-ratings [this] (get-last-posts-with-comments-count-and-ratings post-repository))
 	)
 
 

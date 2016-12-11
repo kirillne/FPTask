@@ -8,5 +8,5 @@
 	(add-comment-rating [this user-id comment-id value])
 	(update-comment-rating [this user-id comment-id value])
 	(get-comment-sum-rating [this comment-id])
-	(get-comments-by-post-id-with-ratings [this post-id])
+	(get-comments-by-post-id-with-ratings [this post-id user-id])
 )

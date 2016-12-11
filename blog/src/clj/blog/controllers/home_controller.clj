@@ -1,10 +1,12 @@
 (ns blog.controllers.home-controller
 	(:use [blog.dal.protocols.common-protocol]
 		  [blog.dal.protocols.users-protocol]
+		  [blog.dal.protocols.posts-protocol]
 		  [blog.dal.protocols.profiles-protocol]
 		  [bouncer.validators :only [defvalidator]])
 	(:require [blog.dal.repositories.users-repository]
 			  [blog.dal.repositories.profiles-repository]
+			  [blog.dal.cache.posts-cache-repository]
 			  [blog.utils.messages-utils :as utils]
 			  [bouncer.core :as b]
               [bouncer.validators :as v]
@@ -14,11 +16,8 @@
 			  [buddy.hashers :as hashers]
 			  [buddy.auth.backends :as backends])
 	(:import  [blog.dal.repositories.users_repository users-repository]
-			  [blog.dal.repositories.profiles_repository profiles-repository]))
-			
-(defn home-page [request]
-  (layout/render
-    request "home.html" {:docs "Hello"}))
+			  [blog.dal.repositories.profiles_repository profiles-repository]
+			  [blog.dal.cache.posts_cache_repository posts-cache-repository]))
 
 (defn about-page [request]
   (layout/render request "about.html"))
@@ -31,6 +30,7 @@
 			
 (def user-repository (users-repository.))
 (def profile-repository (profiles-repository.))
+(def post-repository (posts-cache-repository.))
 
 (defvalidator equals  {:default-message-format "passwords are not equal"} [pass pass2] (= (compare pass pass2) 0))
 
@@ -120,3 +120,8 @@
 (defn signout [request]
   (-> (redirect "/home")
       (assoc :session {})))
+
+
+(defn home-page [request]
+  (layout/render
+    request "home.html" {:posts (get-last-posts-with-comments-count-and-ratings post-repository)}))

@@ -154,7 +154,30 @@ SELECT r.id, r.name, r.creation_date, r.text, r.user_id, r.count, r.value, rat.r
 LEFT JOIN (SELECT post_id, SUM(CASE value WHEN true THEN 1 ELSE -1 END) as rating FROM posts_ratings GROUP BY post_id) as rat
 ON r.id = rat.post_id
 
-
+-- :name get-last-posts-with-comments-count-and-ratings :query :many
+SELECT TOP(5) r.id, r.name, r.creation_date, r.text, r.user_id, r.count, r.value, rat.rating FROM
+  (SELECT pc.id, pc.name, pc.creation_date, pc.text, pc.user_id, pc.count, pr.value FROM
+    (
+      SELECT * FROM
+  	   (
+  	     SELECT p.id, p.name, p.creation_date, p.text, p.user_id, c.count
+  	     FROM posts AS p
+  	     LEFT JOIN 
+  	           (
+  	             SELECT post_id, COUNT (*) AS count 
+  	             FROM comments GROUP BY post_id
+  	           ) AS c
+  	     ON p.id = c.post_id
+  	   )
+    ) AS pc
+    LEFT JOIN 
+    (
+      SELECT * FROM posts_ratings    
+     ) as pr
+  ON pc.id = pr.post_id) as r
+LEFT JOIN (SELECT post_id, SUM(CASE value WHEN true THEN 1 ELSE -1 END) as rating FROM posts_ratings GROUP BY post_id) as rat
+ON r.id = rat.post_id
+ORDER BY r.creation_date DESC
 --------------------------------------- comments
 
 -- :name get-all-comments :query :many
@@ -187,12 +210,27 @@ WHERE post_id = :post-id
 ORDER BY creation_date
 
 -- :name get-comments-by-post-id-with-ratings :query :many
-SELECT com.id, com.user_id, com.text, com.creation_date, com.post_id, com.rating, cr.value FROM (SELECT id, user_id, text, creation_date, post_id, rating FROM comments
-LEFT JOIN (SELECT comment_id, SUM(CASE value WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END) as rating FROM comments_ratings GROUP BY comment_id) as rat
-ON comments.id = rat.comment_id
-WHERE post_id = 65
-ORDER BY creation_date) as com
-LEFT JOIN (SELECT * FROM comments_ratings WHERE user_id = 1) AS cr
+SELECT com.id, com.user_id, com.text, com.creation_date, com.post_id, com.rating, cr.value 
+FROM 
+(
+  SELECT id, user_id, text, creation_date, post_id, rating 
+  FROM comments
+  LEFT JOIN 
+    (
+      SELECT comment_id, SUM(CASE value WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END) as rating 
+      FROM comments_ratings 
+      GROUP BY comment_id
+    ) as rat
+  ON comments.id = rat.comment_id
+  WHERE post_id = :post-id
+  ORDER BY creation_date
+) as com
+LEFT JOIN 
+(
+  SELECT * 
+  FROM comments_ratings 
+  WHERE user_id = :user-id
+) AS cr
 ON cr.comment_id = com.id 
 
 -- :name delete-comment-by-post-id :execute :affected
@@ -231,7 +269,7 @@ SET value = :value
 WHERE post_id = :post-id AND user_id = :user-id
 
 -- :name get-existing :query :one
-SELECT *
+SELECT ISNULL(CASE value WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END, 0) as value
 FROM posts_ratings
 WHERE post_id = :post-id AND user_id = :user-id
 

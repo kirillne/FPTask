@@ -35,6 +35,7 @@
 	(get-existing [this user-id post-id] (db/get-existing {:user-id user-id :post-id post-id}))
 	(get-post-sum-rating [this post-id] (db/get-post-sum-rating {:post-id post-id}))
 	(get-posts-with-comments-count-and-ratings-restricted [this user-id current-user-id] (into [] (map convert-with-rating (db/get-posts-with-comments-count-and-ratings {:user-id user-id :current-user-id current-user-id}))))
+	(get-last-posts-with-comments-count-and-ratings [this] (into [] (map convert-with-rating (db/get-last-posts-with-comments-count-and-ratings))))
 	)
 
 (extend posts-repository 

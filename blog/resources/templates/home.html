@@ -1,8 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-  <div class="col-sm-12">
-    {{docs|markdown}}
-  </div>
+	<h2>
+		<p class="text-center">
+		Last Posts
+		</p>
+	</h2>
 </div>
+
+<div class="row">
+    <div class="col-sm-12 col-xs-12">
+		<div class="list-group">
+			{% for item in posts %}
+				<div class="row">
+					<div class="col-sm-10 col-xs-10">
+					<a  class="list-group-item list-group-item-action" {% if user.authentificated %} href="/posts/{{item.id}}" {%endif%}>
+	    				<h4 class="list-group-item-heading">{{item.name}}</h4>
+	    				<p class="list-group-item-text">{{item.creation-date}}</p>
+	    				<p class="list-group-item-text">Comments ({% if item.count  %}{{item.count}}{%else%}0{%endif%})	</p>
+						<p class="list-group-item-text">Rating ({% if item.rating  %}{{item.rating}}{%else%}0{%endif%})  </p>
+					</a>
+	  				</div>
+  				</div>			    	
+			{% endfor %}
+		</div>
+	</div>  
+</div> 
 {% endblock %}

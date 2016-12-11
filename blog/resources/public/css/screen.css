@@ -22,3 +22,7 @@ body {
 .message {
     padding: 10px;
 }
+
+.rate-form {
+	display: inline-block;
+}

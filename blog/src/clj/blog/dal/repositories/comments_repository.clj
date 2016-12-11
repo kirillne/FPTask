@@ -29,7 +29,7 @@
 	(add-comment-rating [this user-id comment-id value] (db/create-comments-ratings {:user-id user-id :comment-id comment-id :value value}))
 	(update-comment-rating [this user-id comment-id value] (db/update-comments-ratings {:user-id user-id :comment-id comment-id :value value}))
 	(get-comment-sum-rating [this comment-id] (db/get-comment-sum-rating {:comment-id comment-id}))
-	(get-comments-by-post-id-with-ratings [this post-id] (into [] (map convert-rating (db/get-comments-by-post-id-with-ratings {:post-id post-id}))))
+	(get-comments-by-post-id-with-ratings [this post-id user-id] (into [] (map convert-rating (db/get-comments-by-post-id-with-ratings {:post-id post-id :user-id user-id}))))
 	)
 
 (extend comments-repository 

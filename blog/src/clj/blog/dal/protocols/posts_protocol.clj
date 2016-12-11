@@ -9,4 +9,5 @@
 	(get-existing [this user-id post-id])
 	(get-post-sum-rating [this post-id])
 	(get-posts-with-comments-count-and-ratings-restricted [this user-id current-user-id])
+	(get-last-posts-with-comments-count-and-ratings [this])
 )

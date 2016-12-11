@@ -75,19 +75,23 @@
 		user (get-item profile-repository {:id (:user-id comment)})]
 		(assoc comment :user user)))
 
-(defn get-post-info [post]
+(defn get-post-info [post user-id]
 	(let [
 		user (get-item profile-repository {:id (:user-id post)})
-		comments (into [] (map get-comment-info (get-comments-by-post-id-with-ratings comment-repository (:id post))))]
-	{:post post :user user :comments comments}))
+		comments (into [] (map get-comment-info (get-comments-by-post-id-with-ratings comment-repository (:id post) user-id)))
+		rate (get-post-sum-rating post-repository (:id post) )
+		can-rate (get-existing post-repository user-id (:id post))]
+		(println comments)
+	{:post (assoc post :rate rate :can-rate can-rate) :user user :comments comments}))
 
 	
 (defn view-post [request post-id] 
 	(let [
+		identity-id  (:identity (:session request))
 		post (get-item post-repository {:id post-id})]
 		(if (nil? post)
 			(redirect "/error")
-			(view-post-page request (get-post-info post) (get-user-rating user-repository (:user-id {:user-id (:user-id post)})) nil))))
+			(view-post-page request (get-post-info post identity-id) (get-user-rating user-repository (:user-id {:user-id (:user-id post)})) nil))))
 
 (defn add-rating [request user-id post-id value page-id] 
 	(let [
@@ -96,4 +100,4 @@
 		(if (nil? exists) 
 			(add-post-rating post-repository user-id post-id bool-value) 
 			(update-post-rating post-repository user-id post-id bool-value))
-		(redirect (str "/users/" page-id))))
+		(redirect (str "/posts/" page-id))))
