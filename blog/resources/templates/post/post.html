@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  	<h2><p class="text-center">{{info.post.name}} </p></h2>
+  	<h2><p class="text-center">{{info.post.name}} {{user-rating.rate}}</p></h2>
   	<h4><p class="text-right "><small>{{info.user.name}} {{info.user.surname}} ({{info.post.creation-date}}) </small></p></h4>
 
 
@@ -25,7 +25,7 @@
 	 	<div class="col-sm-10 col-xs-12">
 	  		<h4>Comments</h4>
 	  	</div>
-		{% if user-rating.rate %} {% if user-rating.rate > 0 %}
+		{% if user-rating.rate %} {% if user-rating.rate < 0 %}
 		{%endif%}
 		{%else%}	
 		<div class="col-sm-2 col-xs-12">
@@ -41,6 +41,7 @@
         <div class="col-sm-8 col-sm-offset-2 col-xs-12">
             <h4><p class="text-right "><small>{{comment.user.name}} {{comment.user.surname}} ({{comment.creation-date}})</small></p></h4>
             <div class="bigword bg-info img-rounded"><p>{{comment.text}}</p></div>
+			<p> Rating {% if comment.rating %}{{comment.rating}}{%else%}0{%endif%}</p>
         </div>
 
         {% ifequal user.id comment.user-id %}
@@ -64,7 +65,7 @@
 	  						<div class="col-sm-12 col-xs-12">
 	  							<form action="/comments/rating/{{user.id}}/{{comment.id}}" method="post">
 	  								<input type="hidden" name="value" value="1">
-	  								<input type="hidden" name="page-id" value="{{info.profile.id}}" >
+	  								<input type="hidden" name="post-id" value="{{info.post.id}}" >
 	  								<button type="submit" class="btn btn-success btn-xs" {% if comment.can-rate = 1 %} disabled {% endif %}  >
 				    					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 				    				</button>
@@ -75,7 +76,7 @@
 	  						<div class="col-sm-12 col-xs-12">
 	  							<form action="/comments/rating/{{user.id}}/{{comment.id}}" method="post">
 	  								<input type="hidden" name="value" value="-1">
-	  								<input type="hidden" name="page-id" value="{{info.profile.id}}">
+	  								<input type="hidden" name="post-id" value="{{info.post.id}}">
 	  								<button type="submit" class="btn btn-danger btn-xs" {% if comment.can-rate = -1 %} disabled {% endif %} >
 				    					<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
 				    				</button>

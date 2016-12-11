@@ -78,7 +78,7 @@
 (defn get-post-info [post]
 	(let [
 		user (get-item profile-repository {:id (:user-id post)})
-		comments (into [] (map get-comment-info (get-comments-by-post-id comment-repository (:id post))))]
+		comments (into [] (map get-comment-info (get-comments-by-post-id-with-ratings comment-repository (:id post))))]
 	{:post post :user user :comments comments}))
 
 	
@@ -87,7 +87,7 @@
 		post (get-item post-repository {:id post-id})]
 		(if (nil? post)
 			(redirect "/error")
-			(view-post-page request (get-post-info post) (get-user-rating user-repository (:user-id {:user-id (:user-id post)}))  nil))))
+			(view-post-page request (get-post-info post) (get-user-rating user-repository (:user-id {:user-id (:user-id post)})) nil))))
 
 (defn add-rating [request user-id post-id value page-id] 
 	(let [

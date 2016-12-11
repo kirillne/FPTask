@@ -187,11 +187,13 @@ WHERE post_id = :post-id
 ORDER BY creation_date
 
 -- :name get-comments-by-post-id-with-ratings :query :many
-SELECT id, user_id, text, creation_date, post_id, sum_rating FROM comments
-LEFT JOIN (SELECT comment_id, SUM(CASE value WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END) as sum_rating FROM comments_ratings GROUP BY comment_id) as rat
+SELECT com.id, com.user_id, com.text, com.creation_date, com.post_id, com.rating, cr.value FROM (SELECT id, user_id, text, creation_date, post_id, rating FROM comments
+LEFT JOIN (SELECT comment_id, SUM(CASE value WHEN true THEN 1 WHEN false THEN -1 ELSE 0 END) as rating FROM comments_ratings GROUP BY comment_id) as rat
 ON comments.id = rat.comment_id
-WHERE post_id = :post-id
-ORDER BY creation_date
+WHERE post_id = 65
+ORDER BY creation_date) as com
+LEFT JOIN (SELECT * FROM comments_ratings WHERE user_id = 1) AS cr
+ON cr.comment_id = com.id 
 
 -- :name delete-comment-by-post-id :execute :affected
 DELETE FROM comments
@@ -237,7 +239,7 @@ WHERE post_id = :post-id AND user_id = :user-id
 SELECT SUM(CASE value WHEN true THEN 1 ELSE -1 END) as rating
 FROM Posts_ratings WHERE post_id = :post-id
 
--------------------------------------- user_raiting
+-------------------------------------- user_rating
 -- :name get-user-rating :query :one
 SELECT ISNULL((
 SELECT  SUM(CASE  PR.value WHEN true THEN 1 ELSE -1 END)
