@@ -239,18 +239,19 @@ FROM Posts_ratings WHERE post_id = :post-id
 
 -------------------------------------- user_raiting
 -- :name get-user-rating :query :one
-SELECT (
+SELECT ISNULL((
 SELECT  SUM(CASE  PR.value WHEN true THEN 1 ELSE -1 END)
 FROM Posts_ratings AS PR
 JOIN Posts AS P
 ON PR.post_id = p.id
-WHERE P.user_id = :user-id) + 0.2* 
-(
+WHERE P.user_id = 97),0) + 0.2* 
+
+ISNULL((
 SELECT SUM(CASE  CR.value WHEN true THEN 1 ELSE -1 END)
 FROM comments_ratings AS CR
 JOIN Comments AS C
 ON CR.comment_id = C.id
-WHERE C.user_id = :user-id) isnull AS rate
+WHERE C.user_id = 97),0) AS rate
 
 
 
