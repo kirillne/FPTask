@@ -85,3 +85,14 @@
 	
 	)
 )
+
+(defn add-rating [request user-id comment-id value post-id]
+	(let [
+		exists (get-comment-existing comments-repository user-id comment-id)
+		bool-value (if (= value "1") (boolean true) (boolean false) )] 
+		(if (nil? exists) 
+			(add-comment-rating comments-repository user-id comment-id bool-value) 
+			(update-comment-rating comments-repository user-id comment-id bool-value))
+		(redirect (str "/posts/" post-id))
+	)
+)

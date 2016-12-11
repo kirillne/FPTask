@@ -2,10 +2,12 @@
 	(:use 
 		[blog.dal.protocols.common-protocol]
 		[blog.dal.protocols.posts-protocol]
+		[blog.dal.protocols.users-protocol]
 		[blog.dal.protocols.profiles-protocol]
 		[blog.dal.protocols.comments-protocol])
 	(:require 
 		[blog.dal.cache.posts-cache-repository]
+		[blog.dal.repositories.users-repository]
 		[blog.dal.repositories.profiles-repository]
 		[blog.dal.repositories.comments-repository]
 		[blog.layout :as layout]
@@ -16,19 +18,21 @@
 	(:import  
 		[blog.dal.cache.posts_cache_repository posts-cache-repository]
 		[blog.dal.repositories.profiles_repository profiles-repository]
-		[blog.dal.repositories.comments_repository comments-repository]))
+		[blog.dal.repositories.comments_repository comments-repository]
+		[blog.dal.repositories.users_repository users-repository]))
 
 (defn add-post-page [request post messages]
   (layout/render
     request "post/post-form.html" {:post post :messages messages}))
 
-(defn view-post-page [request info messages]
+(defn view-post-page [request info user-rating messages]
   (layout/render
-    request "post/post.html" {:info info :messages messages}))
+    request "post/post.html" {:info info :user-rating user-rating :messages messages}))
 
 (def post-repository (posts-cache-repository.))
 (def profile-repository (profiles-repository.))
 (def comment-repository (comments-repository.))
+(def user-repository (users-repository.))
 
 (defn validate-post [post] (b/validate post
 									:name v/required))
@@ -77,13 +81,13 @@
 		comments (into [] (map get-comment-info (get-comments-by-post-id comment-repository (:id post))))]
 	{:post post :user user :comments comments}))
 
-
+	
 (defn view-post [request post-id] 
 	(let [
 		post (get-item post-repository {:id post-id})]
 		(if (nil? post)
 			(redirect "/error")
-			(view-post-page request (get-post-info post) nil))))
+			(view-post-page request (get-post-info post) (get-user-rating user-repository (:user-id {:user-id (:user-id post)}))  nil))))
 
 (defn add-rating [request user-id post-id value page-id] 
 	(let [

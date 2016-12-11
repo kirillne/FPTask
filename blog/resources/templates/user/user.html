@@ -3,6 +3,9 @@
 <div>
 	<h2><p class="text-center">
 		{{info.profile.name}} {{info.profile.surname}} {% ifequal user.id info.profile.id %} (You) {% endifequal %} 
+	</p>
+	<p class="text-center">
+		Rating - {% if rating.rate  %}{{rating.rate}}{%else%}0{%endif%}
 	</p></h2>
 	<h4>
 		Login: {{info.profile.login}} 
@@ -30,6 +33,7 @@
 		    				<h4 class="list-group-item-heading">{{item.name}}</h4>
 		    				<p class="list-group-item-text">{{item.creation-date}}</p>
 		    				<p class="list-group-item-text">Comments ({% if item.count  %}{{item.count}}{%else%}0{%endif%})	</p>
+							<p class="list-group-item-text">Rating ({% if item.rating  %}{{item.rating}}{%else%}0{%endif%})  </p>
 		  				</a>
 	  				</div>
 	  				<div class="col-sm-2 col-xs-2">

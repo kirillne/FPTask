@@ -61,6 +61,9 @@
 	(get-posts-with-comments-count-restricted [this user-id current-user-id] (get-posts-with-comments-count-restricted post-repository user-id current-user-id))
 	(add-post-rating [this user-id post-id value] (add-post-rating post-repository user-id post-id value))
 	(update-post-rating [this user-id post-id value] (update-post-rating post-repository user-id post-id value))
-	(get-existing [this user-id post-id] (get-existing post-repository user-id post-id)))
+	(get-existing [this user-id post-id] (get-existing post-repository user-id post-id))
+	(get-post-sum-rating [this post-id] (get-post-sum-rating post-repository post-id))
+	(get-posts-with-comments-count-and-ratings-restricted [this user-id current-user-id] (get-posts-with-comments-count-and-ratings-restricted post-repository user-id current-user-id))
+	)
 
 

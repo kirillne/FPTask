@@ -24,6 +24,7 @@
 	(delete-user-by-login [this login] (db/delete-user-by-login {:login login}))
 	(get-full-users-info [this] (into [] (map convert-to-full (db/get-full-users-info))))
 	(get-full-user-info [this user-id] (convert-to-full (db/get-full-user-info {:user-id user-id})))
+	(get-user-rating [this user-id] (db/get-user-rating {:user-id user-id}))
 )
 
 (extend users-repository

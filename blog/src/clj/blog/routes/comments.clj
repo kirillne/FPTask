@@ -16,5 +16,5 @@
 	
 	(POST "/comments/delete/:post-id/:comment-id" [post-id comment-id :as request] (comments/delete-comment request post-id comment-id))
 	
-	(POST "/comments/rating/:comment-id" [comment-id] ())
+	(POST "/comments/rating/:user-id/:comment-id" [user-id comment-id value post-id :as request] (comments/add-rating request user-id comment-id value post-id))
 	(PUT "/comments/rating/:comment-id" [comment-id] ()))

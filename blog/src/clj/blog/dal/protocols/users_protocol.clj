@@ -7,4 +7,5 @@
 	(delete-user-by-login [this login])
 	(get-full-users-info [this])
 	(get-full-user-info [this user-id])
+	(get-user-rating [this user-id])
 )
