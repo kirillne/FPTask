@@ -91,7 +91,7 @@
 		post (get-item post-repository {:id post-id})]
 		(if (nil? post)
 			(redirect "/error")
-			(view-post-page request (get-post-info post identity-id) (get-user-rating user-repository (:user-id {:user-id (:user-id post)})) nil))))
+			(view-post-page request (get-post-info post identity-id) (get-user-rating user-repository identity-id) nil))))
 
 (defn add-rating [request user-id post-id value page-id] 
 	(let [

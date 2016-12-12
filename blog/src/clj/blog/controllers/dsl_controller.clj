@@ -33,7 +33,7 @@
 (defn get-command [string]
 	(if (= string "get-all") 
 		(str "dsl-" string "-items")
-		(str "" string "-item"))
+		(str "dsl-" string "-item"))
 	)
 
 
